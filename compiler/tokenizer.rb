@@ -3,7 +3,7 @@ class Tokenizer
   TOKEN_TYPES = [
     [:def, /\bcall\b/],
     [:end, /\bpop\b/],
-    [:identifier, /\ba-zA-Z]+\b/],
+    [:identifier, /\b[a-zA-Z]+\b/],
     [:integer, /\b[0-9]+\b/],
     [:oparen, /\(/],
     [:cparen, /\)/],
@@ -21,9 +21,13 @@ class Tokenizer
           @code = @code[value.length..-1]
           return Token.new(type, value)
         end
+      end
     end
+    raise RuntimeError.new(
+      "Couldnt match token on #{@code.inspect}"
+    )
   end
 end
-
+Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
 p tokens
