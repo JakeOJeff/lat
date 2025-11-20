@@ -14,7 +14,13 @@ class Tokenizer
 
   def tokenize
     until @code.empty?
-      TOKEN_TYPES.each do 
+      TOKEN_TYPES.each do |type, regex|
+        regex = /\A(#{regex})/
+        if @code =~ regex
+          value = $1
+          @code = @code[value.length..-1]
+          return Token.new(type, value)
+        end
     end
   end
 end
