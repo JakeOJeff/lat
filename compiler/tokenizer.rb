@@ -142,7 +142,12 @@ class Generator
         generate(node.body)
       ]
     when CallNode
-      "THIS IS A CALL"
+      "%s(%s)" % [
+        node.name
+        node.arg_expr.map { |expr| generate(expr) }
+      ]
+    when VarRefNode
+      "VAR REF"
     else
       raise RuntimeError.new("Unexpected node type: #{node.class}")
     end
