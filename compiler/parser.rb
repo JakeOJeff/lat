@@ -10,7 +10,10 @@ class Parser
   end
 
   def parse
-    parse_def
+    if peek(:def)
+      parse_def
+    else
+      parse_statement
   end
 
   def parse_def
