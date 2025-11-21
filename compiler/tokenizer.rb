@@ -144,13 +144,12 @@ class Generator
     when CallNode
       "%s(%s)" % [
         node.name,
-        node.arg_expr.map { |expr| generate(expr) },
+        node.arg_expr.map { |expr| generate(expr) }.join(","),
       ]
     when VarRefNode
-      "VAR REF"
-    
+      node.value
     when IntegerNode
-      "INT NODE"
+      node.value
     else
       raise RuntimeError.new("Unexpected node type: #{node.class}")
     end
