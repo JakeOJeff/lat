@@ -142,7 +142,7 @@ class Generator
         generate(node.body)
       ]
     when CallNode
-      
+      "THIS IS A CALL"
     else
       raise RuntimeError.new("Unexpected node type: #{node.class}")
     end
@@ -157,3 +157,4 @@ tree = Parser.new(tokens).parse
 p tree
 
 generated = Generator.new.generate(tree)
+puts generated
