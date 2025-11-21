@@ -1,5 +1,9 @@
 class Generator
   def generate(node)
+    if node.is_a?(Array)
+      return node.map { |n| generate(n) }.join("\n")
+    end 
+
     case node
     when DefNode
       "function %s(%s) return %s end" % [
@@ -28,7 +32,7 @@ class Generator
 
     when BinOpNode
       "(#{generate(node.left)} + #{generate(node.right)})"
-      
+
     when VarRefNode
       node.value
 
