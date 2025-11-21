@@ -1,3 +1,3 @@
 call f(x, y)
-    g(x)
+    g(x, y, z)
 pop

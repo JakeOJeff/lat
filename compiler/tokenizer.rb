@@ -86,7 +86,7 @@ class Parser
   end
 
   def parse_call
-    name = consume(:identifier)
+    name = consume(:identifier).value
     arg_expr = parse_arg_expr
     CallNode.new(name, arg_expr)
   end
@@ -143,11 +143,14 @@ class Generator
       ]
     when CallNode
       "%s(%s)" % [
-        node.name
-        node.arg_expr.map { |expr| generate(expr) }
+        node.name,
+        node.arg_expr.map { |expr| generate(expr) },
       ]
     when VarRefNode
       "VAR REF"
+    
+    when IntegerNode
+      "INT NODE"
     else
       raise RuntimeError.new("Unexpected node type: #{node.class}")
     end
