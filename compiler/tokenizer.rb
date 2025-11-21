@@ -65,7 +65,9 @@ class Parser
   end
 
   def parse_int
-    
+    consume(:integer)
+  end
+
   def consume(type)
     token = @tokens.shift
     if token.type == type
