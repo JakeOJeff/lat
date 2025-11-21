@@ -6,10 +6,17 @@ class Generator
 
     case node
     when DefNode
+      body_code = 
+        if node.body.is_a?(Array)
+          node.body.map { |n| generate (n) }.join("\n")
+        else
+          generate(node.body)
+        end
+
       "function %s(%s) return %s end" % [
         node.name,
         node.args.join(","),
-        generate(node.body)
+        body_code
       ]
 
     when CallNode
