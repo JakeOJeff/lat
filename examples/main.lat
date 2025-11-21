@@ -1,4 +1,1 @@
-nat x = 10 + (20)
-call funcName(x, y, z)
-    nestedFuncCall(x, y, z)
-pop
+x = x + 19

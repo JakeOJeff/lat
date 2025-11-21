@@ -27,7 +27,7 @@ class Tokenizer
     tokens = []
     until @code.empty?
       tokens << tokenize_token
-      @code = @code.strip
+      # @code = @code.strip
     end
     tokens
   end
@@ -35,6 +35,10 @@ class Tokenizer
   def tokenize_token
     TOKEN_TYPES.each do |type, regex|
       anchored = /\A(#{regex})/
+      if type == :space
+        @code = @code[value.length..-1]
+        return tokenize_token
+      end
 
       if @code =~ anchored
         value = $1
