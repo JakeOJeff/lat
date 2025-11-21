@@ -3,13 +3,20 @@ Token = Struct.new(:type, :value)
 class Tokenizer
 
   TOKEN_TYPES = [
+    [:local, /\bnat\b/],
     [:def, /\bcall\b/],
     [:end, /\bpop\b/],
     [:identifier, /\b[a-zA-Z]+\b/],
     [:integer, /\b[0-9]+\b/],
     [:oparen, /\(/],
     [:cparen, /\)/],
-    [:comma, /,/]
+    [:comma, /,/],
+
+    # operators
+    [:equal, /=/],
+    [:plus, /\+/],
+    [:newline, /\n+/],
+    [:space, /[ \t]+/], 
   ]
 
   def initialize(code)
