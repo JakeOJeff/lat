@@ -33,6 +33,14 @@ class Parser
     end
   end
 
+  def parse_var_assign
+    consume(:local)
+    name = consume(:identifier).value
+    consume(:equal)
+    value = parse_expr
+    VarAssignNode.new(name, value)
+  end
+
   def parse_args
     consume(:oparen)
     args = []
