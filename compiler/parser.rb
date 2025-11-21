@@ -2,6 +2,7 @@ DefNode     = Struct.new(:name, :args, :body)
 IntegerNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
+VarAssignNode = Struct.new(:name, :value)
 
 class Parser
   def initialize(tokens)
@@ -16,9 +17,17 @@ class Parser
     consume(:def)
     name = consume(:identifier).value
     args = parse_args
-    body = parse_expr
+    body = parse_statement
     consume(:end)
     DefNode.new(name, args, body)
+  end
+
+  def parse_statement
+    if peek(:local)
+      parse_var_assign
+    else
+      parse_expr
+    end
   end
 
   def parse_args
