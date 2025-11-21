@@ -48,8 +48,9 @@ class Parser
   end
 
   def parse_def
+    consume(:def)
     name = consume(:identifier)
-    args
+    args = parse_args
     body
   end
 
@@ -61,6 +62,7 @@ class Parser
       raise RuntimeError.new(
         "Expected token type #{type.inspect} but received #{token.type.inspect}"
       )
+    end
   end
 
 end
