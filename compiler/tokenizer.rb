@@ -49,15 +49,17 @@ class Parser
 
   def parse_def
     consume(:def)
-    name = consume(:identifier)
+    name = consume(:identifier).value
     args = parse_args
     body = parse_expr
     consume(:end)
+    DefNode.new(name, args, body)
   end
 
   def parse_args
     consume(:oparen)
     consume(:cparen)
+    []
   end
 
   def parse_expr
@@ -65,7 +67,7 @@ class Parser
   end
 
   def parse_int
-    consume(:integer)
+    IntegerNode.new(consume(:integer).value.to_i)
   end
 
   def consume(type)
@@ -80,6 +82,9 @@ class Parser
   end
 
 end
+
+DefNode = Struct.new(:name, :args, :body)
+IntegerNode = Struct.new(:value)
 
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
