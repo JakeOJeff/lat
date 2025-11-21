@@ -74,7 +74,7 @@ class Parser
   def parse_expr
     if peek(:integer)
       parse_int
-    if peek(:identifier) && peek(:oparen, 1)
+    elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
     else
       parse_var_ref
@@ -106,6 +106,10 @@ class Parser
 
   end
 
+  def parse_var_ref
+    VarRefNode.new(consume(:identifier).value)
+  end
+
   def consume(type)
     token = @tokens.shift
     if token.type == type
@@ -126,6 +130,7 @@ end
 DefNode = Struct.new(:name, :args, :body)
 IntegerNode = Struct.new(:value)
 CallNode = Struct.new(:name, :arg_expr)
+VarRefNode = Struct.new(:value)
 
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
