@@ -14,6 +14,9 @@ class Tokenizer
 
   def tokenize
     until @code.empty?
+      tokenize_token
+    end
+    def tokenize_token
       TOKEN_TYPES.each do |type, regex|
         regex = /\A(#{regex})/
         if @code =~ regex
