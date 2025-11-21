@@ -72,11 +72,36 @@ class Parser
   end
 
   def parse_expr
-    parse_int
+    if peek(:integer)
+      parse_int
+    else
+      parse_call
+    end
   end
 
   def parse_int
     IntegerNode.new(consume(:integer).value.to_i)
+  end
+
+  def parse_call
+    name = consume(:identifier)
+    arg_expr = parse_arg_expr
+    CallNode.new(name, arg_expr)
+  end
+
+  def parse_arg_expr
+    consume(:oparen)
+    arg_expr = []
+    if !peek(:cparen)
+      arg_expr << parse_expr
+      while peek(:comma)
+        consume(:comma)
+        arg_expr << parse_expr
+      end
+    end
+    consume(:cparen)
+    arg_expr
+
   end
 
   def consume(type)
@@ -98,6 +123,7 @@ end
 
 DefNode = Struct.new(:name, :args, :body)
 IntegerNode = Struct.new(:value)
+CallNode = Struct.new(:name, :arg_expr)
 
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
