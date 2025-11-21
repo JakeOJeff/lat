@@ -41,7 +41,9 @@ class Parser
   end
 
   def parse_statement
-    if peek(:local)
+    if peek(:def)
+      parse_def
+    elsif peek(:local)
       parse_var_assign
     elsif peek(:identifier) && peek(:equal, 1)
       parse_var_set
