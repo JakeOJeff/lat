@@ -1,6 +1,4 @@
+nat x = 10 + (20)
 call funcName(x, y, z)
     nestedFuncCall(x, y, z)
 pop
-
-
-nat x = 10

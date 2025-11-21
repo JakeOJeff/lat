@@ -14,6 +14,7 @@ class Parser
       parse_def
     else
       parse_statement
+    end
   end
 
   def parse_def

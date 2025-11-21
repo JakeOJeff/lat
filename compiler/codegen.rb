@@ -15,7 +15,7 @@ class Generator
       ]
 
     when VarAssignNode
-      "%s = %s" % [
+      "local %s = %s" % [
         node.name,
         generate(node.value)
       ]
