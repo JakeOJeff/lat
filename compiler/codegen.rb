@@ -25,6 +25,9 @@ class Generator
         node.name,
         generate(node.value)
       ]
+
+    when BinOpNode
+      "(#{generate(node.left)} + #{generate(node.right)})"
       
     when VarRefNode
       node.value
