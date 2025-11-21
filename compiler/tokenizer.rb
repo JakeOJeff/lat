@@ -74,8 +74,10 @@ class Parser
   def parse_expr
     if peek(:integer)
       parse_int
-    else
+    if peek(:identifier) && peek(:oparen, 1)
       parse_call
+    else
+      parse_var_ref
     end
   end
 
@@ -115,8 +117,8 @@ class Parser
     end
   end
 
-  def peek(type)
-    @tokens.fetch(0).type == type
+  def peek(type, index = 0)
+    @tokens.fetch(index).type == type
   end
 
 end
