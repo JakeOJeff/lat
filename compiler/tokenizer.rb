@@ -51,9 +51,21 @@ class Parser
     consume(:def)
     name = consume(:identifier)
     args = parse_args
-    body
+    body = parse_expr
+    consume(:end)
   end
 
+  def parse_args
+    consume(:oparen)
+    consume(:cparen)
+  end
+
+  def parse_expr
+    parse_int
+  end
+
+  def parse_int
+    
   def consume(type)
     token = @tokens.shift
     if token.type == type
