@@ -14,6 +14,12 @@ class Generator
         node.arg_expr.map { |expr| generate(expr) }.join(",")
       ]
 
+    when VarAssignNode
+      "%s = %s" % [
+        node.name,
+        generate(node.value)
+      ]
+
     when VarRefNode
       node.value
 
