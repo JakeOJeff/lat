@@ -13,10 +13,14 @@ class Tokenizer
   end
 
   def tokenize
+    tokens = []
     until @code.empty?
-      tokenize_token
+      tokens << tokenize_token
     end
-    def tokenize_token
+    tokens
+  end
+
+  def tokenize_token
       TOKEN_TYPES.each do |type, regex|
         regex = /\A(#{regex})/
         if @code =~ regex
@@ -25,12 +29,12 @@ class Tokenizer
           return Token.new(type, value)
         end
       end
-    end
-    raise RuntimeError.new(
+  end
+  raise RuntimeError.new(
       "Couldn't match token on #{@code.inspect}"
     )
-  end
 end
+
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
-p tokens
+puts tokens.map(&:inspect).join("\n")
