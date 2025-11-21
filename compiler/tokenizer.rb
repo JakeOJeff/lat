@@ -16,6 +16,7 @@ class Tokenizer
     tokens = []
     until @code.empty?
       tokens << tokenize_token
+      @code = @code.strip
     end
     tokens
   end
@@ -29,10 +30,11 @@ class Tokenizer
           return Token.new(type, value)
         end
       end
+      raise RuntimeError.new(
+        "Couldn't match token on #{@code.inspect}"
+      )
   end
-  raise RuntimeError.new(
-      "Couldn't match token on #{@code.inspect}"
-    )
+
 end
 
 Token = Struct.new(:type, :value)
