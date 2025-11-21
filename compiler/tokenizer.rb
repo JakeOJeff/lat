@@ -37,6 +37,36 @@ class Tokenizer
 
 end
 
+class Parser
+  def initialize(tokens)
+    @tokens = tokens
+  end
+
+  def parse
+    parse_def
+
+  end
+
+  def parse_def
+    name = consume(:identifier)
+    args
+    body
+  end
+
+  def consume(type)
+    token = @tokens.shift
+    if token.type == type
+      token
+    else
+      raise RuntimeError.new(
+        "Expected token type #{type.inspect} but received #{token.type.inspect}"
+      )
+  end
+
+end
+
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
 puts tokens.map(&:inspect).join("\n")
+tree = Parser.new(tokens).parse
+p tree
