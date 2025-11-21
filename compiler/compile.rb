@@ -16,3 +16,4 @@ p tree
 generated = Generator.new.generate(tree)
 puts "--- LUA OUTPUT ---"
 puts generated
+File.open("test.lua", 'w') { |file| file.write(generated)}
