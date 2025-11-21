@@ -58,8 +58,16 @@ class Parser
 
   def parse_args
     consume(:oparen)
+    args = []
+    if peek(:identifier)
+      args << consume(:identifier).value
+      while peek(:comma)
+        consume(:comma)
+        args << consume(:identifier).value
+      end
+    end
     consume(:cparen)
-    []
+    args
   end
 
   def parse_expr
@@ -79,6 +87,10 @@ class Parser
         "Expected token type #{type.inspect} but received #{token.type.inspect}"
       )
     end
+  end
+
+  def peek(type)
+    @tokens.fetch(0).type == type
   end
 
 end
