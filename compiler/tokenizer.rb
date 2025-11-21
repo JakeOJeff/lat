@@ -35,13 +35,14 @@ class Tokenizer
   def tokenize_token
     TOKEN_TYPES.each do |type, regex|
       anchored = /\A(#{regex})/
-      if type == :space
-        @code = @code[value.length..-1]
-        return tokenize_token
-      end
+
 
       if @code =~ anchored
         value = $1
+        if type == :space
+          @code = @code[value.length..-1]
+          return tokenize_token
+        end
         @code = @code[value.length..-1]
         return Token.new(type, value)
       end
