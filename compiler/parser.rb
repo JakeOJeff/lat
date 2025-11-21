@@ -91,6 +91,27 @@ class Parser
     left
   end
 
+  def parse_term
+    if peek(:integer)
+      parse_int
+
+    elsif peek(:identifier) && peek(:oparen, 1)
+      parse_call
+
+    elsif peek(:identifier)
+      parse_var_ref
+
+    elsif peek(:oparen)
+      consume(:oparen)
+      expr = parse_expr
+      consume(:cparen)
+      expr
+    
+    else
+      raise "Unexpected token #{peek(0).inspect} in term"
+    end
+  end
+
   def parse_int
     IntegerNode.new(consume(:integer).value.to_i)
   end
