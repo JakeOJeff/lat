@@ -132,8 +132,28 @@ IntegerNode = Struct.new(:value)
 CallNode = Struct.new(:name, :arg_expr)
 VarRefNode = Struct.new(:value)
 
+class Generator
+  def generate(node)
+    case node
+    when DefNode
+      "function %s(%s) return %s end" % [
+        node.name,
+        node.args.join(","),
+        generate(node.body)
+      ]
+    when CallNode
+      
+    else
+      raise RuntimeError.new("Unexpected node type: #{node.class}")
+    end
+  end
+end
+
+
 Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("examples/main.lat")).tokenize 
 puts tokens.map(&:inspect).join("\n")
 tree = Parser.new(tokens).parse
 p tree
+
+generated = Generator.new.generate(tree)
