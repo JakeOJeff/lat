@@ -20,6 +20,12 @@ class Generator
         generate(node.value)
       ]
 
+    when VarSetNode
+      "%s = %s" % [
+        node.name,
+        generate(node.value)
+      ]
+      
     when VarRefNode
       node.value
 

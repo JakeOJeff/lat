@@ -55,6 +55,7 @@ class Parser
     value = parse_expr
     VarSetNode.new(name, value)
   end
+  
   def parse_var_assign
     consume(:local)
     name = consume(:identifier).value
