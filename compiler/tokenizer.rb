@@ -24,7 +24,7 @@ class Tokenizer
       end
     end
     raise RuntimeError.new(
-      "Couldnt match token on #{@code.inspect}"
+      "Couldn't match token on #{@code.inspect}"
     )
   end
 end
