@@ -4,6 +4,7 @@ CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
 VarAssignNode = Struct.new(:name, :value)
 VarSetNode = Struct.new(:name, :value)
+BinOpNode = Struct.new(:left, :op, :right)
 
 class Parser
   def initialize(tokens)
@@ -55,7 +56,7 @@ class Parser
     value = parse_expr
     VarSetNode.new(name, value)
   end
-  
+
   def parse_var_assign
     consume(:local)
     name = consume(:identifier).value
@@ -79,13 +80,15 @@ class Parser
   end
 
   def parse_expr
-    if peek(:integer)
-      parse_int
-    elsif peek(:identifier) && peek(:oparen, 1)
-      parse_call
-    else
-      parse_var_ref
+    left = parse_term
+
+    while peek(:plus)
+      consume(:plus)
+      right = parse_term
+      left = BinOpNode.new(left, :plus, right)
     end
+    
+    left
   end
 
   def parse_int
