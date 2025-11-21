@@ -35,7 +35,14 @@ class Parser
     consume(:def)
     name = consume(:identifier).value
     args = parse_args
-    body = parse_statement
+
+    skip_newlines
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
     consume(:end)
     DefNode.new(name, args, body)
   end
