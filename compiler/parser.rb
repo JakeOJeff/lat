@@ -10,11 +10,23 @@ class Parser
   end
 
   def parse
-    if peek(:def)
-      parse_def
-    else
-      parse_statement
+    # if peek(:def)
+    #   parse_def
+    # else
+    #   parse_statement
+    # end
+    statements = []
+    while @tokens.any?
+      skip_newlines
+      break if @tokens.empty?
+      statements << parse_statement
+      skip_newlines
     end
+    statements
+  end
+
+  def skip_newlines
+    consume(:newline) while peek(:newline)
   end
 
   def parse_def
