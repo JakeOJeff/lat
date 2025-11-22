@@ -11,4 +11,4 @@ z = add(x, y)
 -G:push()
 
 -G:pop()
--A:new("path/to/file", 20)
+-A:new("paths", 20)

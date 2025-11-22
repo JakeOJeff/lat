@@ -53,6 +53,9 @@ class Generator
     when IntegerNode
       node.value.to_s
 
+    when StringNode
+      node.value
+      
     else
       raise "Unknown node type: #{node.class}"
     end
