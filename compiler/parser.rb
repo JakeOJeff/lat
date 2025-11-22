@@ -28,7 +28,9 @@ LOVE_NAMESPACES = {
 OP_NAMESPACES = {
   dequal: "==",
   equal: "=",
-  plus: "+"
+  plus: "+",
+  minus: "-",
+  divide: "/",
 }
 
 class Parser
@@ -154,23 +156,25 @@ class Parser
   def parse_operators
     left = parse_term
 
-    while peek(:plus)
-      consume(:plus)
-      right = parse_term
-      left = BinOpNode.new(left, :plus, right)
-    end
-    while peek(:minus)
-      consume(:minus)
-      right = parse_term
-      left = BinOpNode.new(left, :minus, right)
-    end
-    while peek(:divide)
-      consume(:divide)
-      right = parse_term
-      left = BinOpNode.new(left, :plus, right)
-    end
+    left = parse_op(left, :divide)
+    left = parse_op(left, :plus)
+    left = parse_op(left, :minus)
+
     left
   end
+
+  def parse_op(left, operator)
+
+    while peek(operator)
+      consume(operator)
+      right = parse_term
+      left = BinOpNode.new(left, operator, right)
+    end
+    left
+  
+  end
+
+
 
   def parse_term
     if peek(:integer)
