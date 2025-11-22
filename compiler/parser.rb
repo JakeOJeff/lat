@@ -6,7 +6,7 @@ VarAssignNode = Struct.new(:name, :value)
 VarSetNode = Struct.new(:name, :value)
 BinOpNode = Struct.new(:left, :op, :right)
 
-LoveGraphicsNode = Struct.new(:name, :args)
+LoveCallNode = Struct.new(:namespace, :name, :args)
 
 
 LOVE_NAMESPACES = {
@@ -132,9 +132,8 @@ class Parser
       consume(:cparen)
       expr
 
-    elsif peek(:lgraphics)
-      parse_love_graphics
-    
+    elsif LOVE_NAMESPACES.keys.include?(peek_type)
+      parse_love_call
     else
       raise "Unexpected token #{peek(0).inspect} in term"
     end
@@ -144,11 +143,14 @@ class Parser
     IntegerNode.new(consume(:integer).value.to_i)
   end
 
-  def parse_love_graphics
-    consume(:lgraphics)
+  def parse_love_call
+    prefix = @tokens.shift.type
+    namespace = LOVE_NAMESPACES[prefix]
+
     name = consume(:identifier).value
     args = parse_arg_expr
-    LoveGraphicsNode.new(name, args)
+
+    LoveCallNode.new(namespace, name, args)
   end
 
   def parse_call
@@ -183,5 +185,9 @@ class Parser
 
   def peek(type, offset = 0)
     @tokens[offset]&.type == type
+  end
+
+  def peek_type(offset = 0)
+    @tokens[offset]&.type
   end
 end
