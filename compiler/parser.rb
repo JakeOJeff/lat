@@ -140,7 +140,7 @@ class Parser
   end
 
   def parse_expr
-    left = parse_additive
+    left = parse_operators
 
     while peek(:dequal)
       consume(:dequal)
@@ -151,7 +151,7 @@ class Parser
     left
   end
 
-  def parse_additive
+  def parse_operators
     left = parse_term
 
     while peek(:plus)
@@ -159,7 +159,16 @@ class Parser
       right = parse_term
       left = BinOpNode.new(left, :plus, right)
     end
-    
+    while peek(:minus)
+      consume(:minus)
+      right = parse_term
+      left = BinOpNode.new(left, :minus, right)
+    end
+    while peek(:divide)
+      consume(:divide)
+      right = parse_term
+      left = BinOpNode.new(left, :plus, right)
+    end
     left
   end
 
