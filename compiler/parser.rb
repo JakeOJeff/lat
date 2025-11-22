@@ -6,6 +6,7 @@ VarRefNode  = Struct.new(:value)
 VarAssignNode = Struct.new(:name, :value)
 VarSetNode = Struct.new(:name, :value)
 BinOpNode = Struct.new(:left, :op, :right)
+PrintNode = Struct.new(:args)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
 
@@ -64,9 +65,18 @@ class Parser
     DefNode.new(name, args, body)
   end
 
+  def parse_print
+    consume(:print)
+    args = parse_args
+    PrintNode.new(args)
+    
+  end
+
   def parse_statement
     if peek(:def)
       parse_def
+    elsif peek(:print)
+      parse_print
     elsif peek(:local)
       parse_var_assign
     elsif peek(:identifier) && peek(:equal, 1)
