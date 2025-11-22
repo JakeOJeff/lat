@@ -1,8 +1,6 @@
-local x = (200 + 25)
-local y = (225 + x)
+local x = 10
+y = (x + 30)
 function add(a,b) return (a + b) end
-z = add(x,y)
-love.graphics.draw(player,x,y)
-love.graphics.push()
-love.graphics.pop()
-love.audio.new("paths",20)
+local z = add(x,y)
+
+print(x, y, z)

@@ -6,12 +6,14 @@ class Tokenizer
     [:local, /\bnat\b/],
     [:def, /\bcall\b/],
     [:end, /\bdone\b/],
+    [:print, /\bprint\b/]
     [:identifier, /\b[a-zA-Z]+\b/],
+    [:string, /"([^"]*)"/],
     [:integer, /\b[0-9]+\b/],
     [:oparen, /\(/],
     [:cparen, /\)/],
     [:comma, /,/],
-    [:string, /"([^"]*)"/],
+
 
     # operators
     [:equal, /=/],
