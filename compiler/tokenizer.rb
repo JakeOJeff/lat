@@ -19,10 +19,10 @@ class Tokenizer
     # operators
     [:dequal, /==/],
     [:equal, /=/],
+    [:divide, /\//],
+    [:multiply, /\*/],
     [:plus, /\+/],
     [:minus, /\-/],
-    [:multiply, /\*/],
-    [:divide, /\//],
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
 

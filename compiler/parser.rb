@@ -31,6 +31,7 @@ OP_NAMESPACES = {
   plus: "+",
   minus: "-",
   divide: "/",
+  multiply: "*",
 }
 
 class Parser
@@ -97,6 +98,8 @@ class Parser
   end
 
   def parse_statement
+    return nil if peek(:end)
+
     if peek(:def)
       parse_def
     elsif peek(:if)
@@ -157,6 +160,7 @@ class Parser
     left = parse_term
 
     left = parse_op(left, :divide)
+    left = parse_op(left, :multiply)
     left = parse_op(left, :plus)
     left = parse_op(left, :minus)
 
