@@ -40,6 +40,12 @@ class Generator
     when BinOpNode
       "(#{generate(node.left)} + #{generate(node.right)})"
 
+    when LoveGraphicsNode
+      "love.graphics.%s(%s)" % [
+        node.name
+        node.args.join(",")
+      ]
+
     when VarRefNode
       node.value
 
