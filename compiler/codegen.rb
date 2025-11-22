@@ -56,7 +56,7 @@ class Generator
       ]
 
     when BinOpNode
-      "(#{generate(node.left)} + #{generate(node.right)})"
+      "(#{generate(node.left)} #{node.op} #{generate(node.right)})"
 
     when LoveCallNode
       "love.%s.%s(%s)" % [

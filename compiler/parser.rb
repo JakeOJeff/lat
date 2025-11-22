@@ -134,6 +134,18 @@ class Parser
   end
 
   def parse_expr
+    left = parse_additive
+
+    while peek(:dequal)
+      consume(:dequal)
+      right = parse_term
+      left = BinOpNode.new(left, :dequal, right)
+    end
+    
+    left
+  end
+
+  def parse_additive
     left = parse_term
 
     while peek(:plus)
