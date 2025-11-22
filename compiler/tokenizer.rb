@@ -5,7 +5,7 @@ class Tokenizer
   TOKEN_TYPES = [
     [:local, /\bnat\b/],
     [:def, /\bcall\b/],
-    [:end, /\bpop\b/],
+    [:end, /\bdone\b/],
     [:identifier, /\b[a-zA-Z]+\b/],
     [:integer, /\b[0-9]+\b/],
     [:oparen, /\(/],

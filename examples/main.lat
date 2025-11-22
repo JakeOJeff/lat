@@ -8,3 +8,6 @@ pop
 z = add(x, y)
 
 -G:draw(player, x, y)
+-G:push()
+
+-G:pop()
