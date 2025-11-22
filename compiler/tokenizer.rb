@@ -6,6 +6,7 @@ class Tokenizer
     [:local, /\bnat\b/],
     [:def, /\bcall\b/],
     [:end, /\bdone\b/],
+    [:if, /\bif\b/],
     [:print, /\bprint\b/],
     [:identifier, /\b[a-zA-Z]+\b/],
     [:string, /"([^"]*)"/],
