@@ -78,7 +78,14 @@ class Parser
 
   def parse_if
     consume(:if)
-    statement = parse_expr
+
+    if peek(:oparen)
+      consume(:oparen)
+      statement = parse_expr
+      consume(:cparen)
+    else
+      statement = parse_expr
+    end
     skip_newlines
     body = []
 
