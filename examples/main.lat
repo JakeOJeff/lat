@@ -6,6 +6,6 @@ call add(a, b)
 done
 
 nat z = add(x, y)
-nat img = -G:newImage("img.png")
 
--G:draw(img, x, y)
+
+print("hello", 300, 300, x, y, z)

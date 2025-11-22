@@ -25,6 +25,11 @@ class Generator
         node.arg_expr.map { |expr| generate(expr) }.join(",")
       ]
 
+    when PrintNode
+      "print(%s)" % [
+        node.args.map { |expr| generate(expr) }.join(",")
+      ]
+
     when VarAssignNode
       "local %s = %s" % [
         node.name,

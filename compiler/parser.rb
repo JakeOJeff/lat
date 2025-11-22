@@ -67,7 +67,7 @@ class Parser
 
   def parse_print
     consume(:print)
-    args = parse_args
+    args = parse_arg_expr
     PrintNode.new(args)
     
   end
