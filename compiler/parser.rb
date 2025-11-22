@@ -8,6 +8,20 @@ BinOpNode = Struct.new(:left, :op, :right)
 
 LoveGraphicsNode = Struct.new(:name, :args)
 
+
+LOVE_NAMESPACES = {
+  lgraphics: "graphics",
+  laudio: "audio",
+  ldata: "data",
+  levent: "event",
+  lfilesystem: "filesystem"
+  lfont: "font",
+  limage: "image",
+  ljoystick: "joystick",
+  lmouse: "mouse",
+  lkeyboard: "keyboard"
+}
+
 class Parser
   def initialize(tokens)
     @tokens = tokens
