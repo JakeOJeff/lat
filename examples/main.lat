@@ -9,3 +9,7 @@ nat z = add(x, y)
 
 
 print("hello", 300, 300, x, y, z)
+
+if (a + b) 
+    add(x, y)
+done

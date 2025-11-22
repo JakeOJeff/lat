@@ -68,7 +68,7 @@ class Parser
 
   def parse_if
     consume(:if)
-    statement = parse_statement
+    statement = parse_expr
     skip_newlines
     body = []
 
@@ -91,6 +91,8 @@ class Parser
   def parse_statement
     if peek(:def)
       parse_def
+    elsif peek(:if)
+      parse_if
     elsif peek(:print)
       parse_print
     elsif peek(:local)
@@ -149,6 +151,7 @@ class Parser
 
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
+
 
     elsif peek(:identifier)
       parse_var_ref
