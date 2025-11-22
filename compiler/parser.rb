@@ -14,7 +14,7 @@ LOVE_NAMESPACES = {
   laudio: "audio",
   ldata: "data",
   levent: "event",
-  lfilesystem: "filesystem"
+  lfilesystem: "filesystem",
   lfont: "font",
   limage: "image",
   ljoystick: "joystick",

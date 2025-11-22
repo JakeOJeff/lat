@@ -40,8 +40,9 @@ class Generator
     when BinOpNode
       "(#{generate(node.left)} + #{generate(node.right)})"
 
-    when LoveGraphicsNode
-      "love.graphics.%s(%s)" % [
+    when LoveCallNode
+      "love.%s.%s(%s)" % [
+        node.namespace,
         node.name,
         node.args.map { |expr| generate(expr) }.join(",")
       ]

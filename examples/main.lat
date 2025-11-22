@@ -3,7 +3,7 @@ nat y = 225 + x
 
 call add(a, b)
     a + b
-pop
+done
 
 z = add(x, y)
 
