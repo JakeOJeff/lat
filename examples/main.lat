@@ -1,0 +1,8 @@
+nat x = 200 + 25
+nat y = 225 + x
+
+call add(a, b)
+    a + b
+pop
+
+z = add(x, y)
