@@ -106,6 +106,8 @@ class Parser
   end
 
   def parse_statement
+
+    skip_newlines
     return nil if peek(:end)
 
     if peek(:def)
@@ -153,38 +155,62 @@ class Parser
   end
 
   def parse_expr
-    left = parse_operators
+    parse_equality
+  end
+  def parse_equality
+    left = parse_additive
 
     while peek(:dequal)
-      consume(:dequal)
-      right = parse_term
-      left = BinOpNode.new(left, :dequal, right)
+      op = consume(:dequal)
+      right = parse_additive
+      left = BinOpNode.new(left, op.type, right)
     end
-    
+
     left
   end
 
-  def parse_operators
+  def parse_additive
+    left = parse_multiplicative
+
+    while peek(:plus) || peek(:minus) 
+      op = consume_current.type
+      right = parse_multiplicative
+      left = BinOpNode.new(left, op, right)
+    end
+    left
+  end
+  
+  def parse_multiplicative
     left = parse_term
 
-    left = parse_op(left, :divide)
-    left = parse_op(left, :multiply)
-    left = parse_op(left, :plus)
-    left = parse_op(left, :minus)
-
-    left
-  end
-
-  def parse_op(left, operator)
-
-    while peek(operator)
-      consume(operator)
+    while peek(:multiply) || peek(:divide)
+      op = consume_current.type
       right = parse_term
-      left = BinOpNode.new(left, operator, right)
+      left = BinOpNode.new(left, op, right)
     end
     left
-  
   end
+  # def parse_operators
+  #   left = parse_term
+
+  #   left = parse_op(left, :divide)
+  #   left = parse_op(left, :multiply)
+  #   left = parse_op(left, :plus)
+  #   left = parse_op(left, :minus)
+
+  #   left
+  # end
+
+  # def parse_op(left, operator)
+
+  #   while peek(operator)
+  #     consume(operator)
+  #     right = parse_term
+  #     left = BinOpNode.new(left, operator, right)
+  #   end
+  #   left
+  
+  # end
 
   def parse_term
     if peek(:integer)
@@ -208,7 +234,8 @@ class Parser
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
       parse_love_call
     else
-      raise "Unexpected token #{peek(0).inspect} in term"
+      raise "Unexpected token #{@tokens[0].inspect} in term"
+
     end
   end
 
