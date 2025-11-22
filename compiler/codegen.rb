@@ -54,8 +54,10 @@ class Generator
       node.value.to_s
 
     when StringNode
-      node.value
-      
+      "\"%s\"" % [
+        node.value
+      ]
+
     else
       raise "Unknown node type: #{node.class}"
     end

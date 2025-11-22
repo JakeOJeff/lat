@@ -127,7 +127,7 @@ class Parser
     elsif peek(:identifier)
       parse_var_ref
 
-    elsif peek(:ap)
+    elsif peek(:string)
       parse_string
 
     elsif peek(:oparen)
@@ -148,13 +148,8 @@ class Parser
   end
 
   def parse_string
-    consume(:ap)
-    StringNode.new(consume(:identifier).value)
-    if (peek(:ap))
-      consume(:ap)
-    else
-      raise "Expected '\"' at end of String"
-    end
+    strVal = consume(:string).value
+    StringNode.new(strVal[1..-2])
   end
 
   def parse_love_call
