@@ -17,6 +17,9 @@ class Tokenizer
     [:plus, /\+/],
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
+
+    #love 
+    [:lgraphics, /\b-G:\b/],
   ]
 
   def initialize(code)

@@ -6,6 +6,8 @@ VarAssignNode = Struct.new(:name, :value)
 VarSetNode = Struct.new(:name, :value)
 BinOpNode = Struct.new(:left, :op, :right)
 
+LoveGraphicsNode = Struct.new()
+
 class Parser
   def initialize(tokens)
     @tokens = tokens
