@@ -19,7 +19,7 @@ class Tokenizer
     [:space, /[ \t]+/], 
 
     #love 
-    [:lgraphics, /\b-G:\b/],
+    [:lgraphics, /-G:/],
   ]
 
   def initialize(code)

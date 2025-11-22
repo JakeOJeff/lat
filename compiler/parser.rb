@@ -6,7 +6,7 @@ VarAssignNode = Struct.new(:name, :value)
 VarSetNode = Struct.new(:name, :value)
 BinOpNode = Struct.new(:left, :op, :right)
 
-LoveGraphicsNode = Struct.new()
+LoveGraphicsNode = Struct.new(:name, :args)
 
 class Parser
   def initialize(tokens)
@@ -117,6 +117,9 @@ class Parser
       expr = parse_expr
       consume(:cparen)
       expr
+
+    elsif peek(:lgraphics)
+      parse_love_graphics
     
     else
       raise "Unexpected token #{peek(0).inspect} in term"
@@ -125,6 +128,13 @@ class Parser
 
   def parse_int
     IntegerNode.new(consume(:integer).value.to_i)
+  end
+
+  def parse_love_graphics
+    consume(:lgraphics)
+    name = consume(:identifier)
+    args = parse_arg_expr
+    LoveGraphicsNode.new(name, args)
   end
 
   def parse_call
