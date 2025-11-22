@@ -20,6 +20,17 @@ class Tokenizer
 
     #love 
     [:lgraphics, /-G:/],
+    [:laudio, /-A:/],
+    [:ldata, /-D:/],
+    [:levent, /-E:/],
+    [:lfilesystem, /-FS:/],
+    [:lfont, /-F:/],
+    [:limage, /-I:/],
+    [:ljoystick, /-J:/],
+    [:lmouse, /-M:/],
+    [:lkeyboard, /-K:/],
+
+
   ]
 
   def initialize(code)
