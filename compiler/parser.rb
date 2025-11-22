@@ -173,7 +173,7 @@ class Parser
     left = parse_multiplicative
 
     while peek(:plus) || peek(:minus) 
-      op = consume_current.type
+      op = @tokens.shift.type
       right = parse_multiplicative
       left = BinOpNode.new(left, op, right)
     end
@@ -184,7 +184,7 @@ class Parser
     left = parse_term
 
     while peek(:multiply) || peek(:divide)
-      op = consume_current.type
+      op = @tokens.shift.type
       right = parse_term
       left = BinOpNode.new(left, op, right)
     end
@@ -214,16 +214,17 @@ class Parser
 
   def parse_term
     if peek(:integer)
-      parse_int
+      IntegerNode.new(consume(:integer).value.to_i)
 
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
 
     elsif peek(:identifier)
-      parse_var_ref
+      VarRefNode.new(consume(:identifier).value)
 
     elsif peek(:string)
-      parse_string
+      strVal = consume(:string).value
+      StringNode.new(strVal[1..-2])
 
     elsif peek(:oparen)
       consume(:oparen)
@@ -239,14 +240,7 @@ class Parser
     end
   end
 
-  def parse_int
-    IntegerNode.new(consume(:integer).value.to_i)
-  end
 
-  def parse_string
-    strVal = consume(:string).value
-    StringNode.new(strVal[1..-2])
-  end
 
   def parse_love_call
     prefix = @tokens.shift.type
@@ -276,10 +270,6 @@ class Parser
     end
     consume(:cparen)
     args
-  end
-
-  def parse_var_ref
-    VarRefNode.new(consume(:identifier).value)
   end
 
   def consume(type)
