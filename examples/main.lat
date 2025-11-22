@@ -6,3 +6,5 @@ call add(a, b)
 pop
 
 z = add(x, y)
+
+-G:draw(player, x, y)
