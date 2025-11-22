@@ -1,4 +1,5 @@
-DefNode     = Struct.new(:name, :args, :body)
+DefNode  = Struct.new(:name, :args, :body)
+IfNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
