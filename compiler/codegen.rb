@@ -42,8 +42,8 @@ class Generator
 
     when LoveGraphicsNode
       "love.graphics.%s(%s)" % [
-        node.name
-        node.args.map { |expr| generate(expr)}.join(",")
+        node.name,
+        node.args.map { |expr| generate(expr) }.join(",")
       ]
 
     when VarRefNode
