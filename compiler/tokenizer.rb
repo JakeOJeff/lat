@@ -11,6 +11,7 @@ class Tokenizer
     [:oparen, /\(/],
     [:cparen, /\)/],
     [:comma, /,/],
+    [:string, /"([^"]*)"/],
 
     # operators
     [:equal, /=/],

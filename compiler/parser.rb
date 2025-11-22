@@ -1,5 +1,6 @@
 DefNode     = Struct.new(:name, :args, :body)
 IntegerNode = Struct.new(:value)
+StringNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
 VarAssignNode = Struct.new(:name, :value)
@@ -126,6 +127,9 @@ class Parser
     elsif peek(:identifier)
       parse_var_ref
 
+    elsif peek(:string)
+      parse_string
+
     elsif peek(:oparen)
       consume(:oparen)
       expr = parse_expr
@@ -141,6 +145,11 @@ class Parser
 
   def parse_int
     IntegerNode.new(consume(:integer).value.to_i)
+  end
+
+  def parse_string
+    strVal = consume(:string).value
+    StringNode.new(strVal[1..-2])
   end
 
   def parse_love_call
