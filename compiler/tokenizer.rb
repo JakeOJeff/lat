@@ -18,6 +18,7 @@ class Tokenizer
 
     # operators
     [:equal, /=/],
+    [:dequal, /==/],
     [:plus, /\+/],
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
