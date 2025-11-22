@@ -25,6 +25,12 @@ LOVE_NAMESPACES = {
   lkeyboard: "keyboard"
 }
 
+OP_NAMESPACES = {
+  dequal: "==",
+  equal: "=",
+  plus: "+"
+}
+
 class Parser
   def initialize(tokens)
     @tokens = tokens
