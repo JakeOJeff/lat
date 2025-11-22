@@ -132,7 +132,7 @@ class Parser
 
   def parse_love_graphics
     consume(:lgraphics)
-    name = consume(:identifier)
+    name = consume(:identifier).value
     args = parse_arg_expr
     LoveGraphicsNode.new(name, args)
   end
