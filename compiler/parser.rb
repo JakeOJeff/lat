@@ -66,6 +66,21 @@ class Parser
     DefNode.new(name, args, body)
   end
 
+  def parse_if
+    consume(:if)
+    statement = parse_statement
+    skip_newlines
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
+    consume(:end)
+    IfNode.new(statement, body)
+  end
+
+
   def parse_print
     consume(:print)
     args = parse_arg_expr
