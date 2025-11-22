@@ -1,5 +1,5 @@
 nat x = 10
-y  = x + 30
+y  = x + 3 / 333 + 20 - 12
 
 call add(a, b)
     a + b / 2

@@ -28,10 +28,11 @@ LOVE_NAMESPACES = {
 OP_NAMESPACES = {
   dequal: "==",
   equal: "=",
-  plus: "+",
-  minus: "-",
   divide: "/",
   multiply: "*",
+  plus: "+",
+  minus: "-",
+
 }
 
 class Parser
@@ -178,15 +179,12 @@ class Parser
   
   end
 
-
-
   def parse_term
     if peek(:integer)
       parse_int
 
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
-
 
     elsif peek(:identifier)
       parse_var_ref
