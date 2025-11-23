@@ -20,17 +20,24 @@ class Generator
       ]
 
     when IfNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map { |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
+      compiled = ""
+
+      first = node.statement
+      compiled << "if #{generate(first)} then\n"
+      compiled << node.body.map { |n| generate (n) }.join("\n")
+
+      node.elif_blocks[1..]&.each do |c|
+        compiled << "elseif #{generate(c.condition)} then\n"
+        compiled << c.body.map { |n| generate (n) }.join("\n")
       end
 
-      "if %s then \n %s \nend" % [
-        generate(node.statement),
-        body_code
-      ]
+      if node.else_body
+        compiled << "else\n"
+        compiled << c.else_body.map { |n| generate (n) }.join("\n")
+      end
+
+      compiled << "end"
+      compiled
 
     when WhileNode
       body_code = 
