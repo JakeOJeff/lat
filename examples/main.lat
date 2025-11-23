@@ -12,4 +12,9 @@ call incrementCoin(externalMultiplier)
     return coins
 done
 
+when (true)
+
+done
+
+
 print(coins)

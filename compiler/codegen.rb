@@ -27,11 +27,23 @@ class Generator
         generate(node.body)
       end
 
-      "if %s then %s end" % [
+      "if %s then \n %s \nend" % [
         generate(node.statement),
         body_code
       ]
 
+    when WhileNode
+      body_code = 
+      if node.body.is_a?(Array)
+        node.body.map{ |n| generate (n) }.join("\n")
+      else
+        generate(node.body)
+      end
+
+      "while %s do \n %s \nend" % [
+        generate(node.statement),
+        body_code
+      ]
     when CallNode
       "%s(%s)" % [
         node.name,
