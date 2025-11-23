@@ -1,6 +1,6 @@
-local x = 10
-y = (((x + (3 / 333)) + 20) - 12)
-function add(a,b) return (a + (b / 2)) end
-local z = add(x,y)
-print("hello",300,300,x,y,z)
-if (a == b) then add(x,y) end
+local coins = 250
+local incrementVal = 20
+local multiplier = 2
+if love.keyboard.isDown("space") then incrementCoin(3) end
+function incrementCoin(externalMultiplier) return coins = (coins + ((incrementVal * multiplier) * externalMultiplier)) end
+print(coins)

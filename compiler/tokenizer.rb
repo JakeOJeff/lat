@@ -8,6 +8,20 @@ class Tokenizer
     [:end, /\bdone\b/],
     [:if, /\bif\b/],
     [:print, /\bprint\b/],
+    [:return, /\breturn\b/]
+
+    #love 
+    [:lgraphics, /-G:/],
+    [:laudio, /-A:/],
+    [:ldata, /-D:/],
+    [:levent, /-E:/],
+    [:lfilesystem, /-FS:/],
+    [:lfont, /-F:/],
+    [:limage, /-I:/],
+    [:ljoystick, /-J:/],
+    [:lmouse, /-M:/],
+    [:lkeyboard, /-K:/],
+
     [:identifier, /\b[a-zA-Z]+\b/],
     [:string, /"([^"]*)"/],
     [:integer, /\b[0-9]+\b/],
@@ -26,17 +40,7 @@ class Tokenizer
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
 
-    #love 
-    [:lgraphics, /-G:/],
-    [:laudio, /-A:/],
-    [:ldata, /-D:/],
-    [:levent, /-E:/],
-    [:lfilesystem, /-FS:/],
-    [:lfont, /-F:/],
-    [:limage, /-I:/],
-    [:ljoystick, /-J:/],
-    [:lmouse, /-M:/],
-    [:lkeyboard, /-K:/],
+
 
 
   ]

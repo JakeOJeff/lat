@@ -1,15 +1,13 @@
-nat x = 10
-y  = x + 3 / 333 + 20 - 12
+nat coins = 250
+nat incrementVal = 20
+nat multiplier = 2
 
-call add(a, b)
-    a + b / 2
+if (-K:isDown("space"))
+    incrementCoin(3)
 done
 
-nat z = add(x, y)
-
-
-print("hello", 300, 300, x, y, z)
-
-if (a == b) 
-    add(x, y)
+call incrementCoin(externalMultiplier)
+    coins = coins + incrementVal * multiplier * externalMultiplier 
 done
+
+print(coins)
