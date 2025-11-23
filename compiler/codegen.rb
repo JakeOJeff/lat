@@ -27,16 +27,16 @@ class Generator
       compiled << node.body.map { |n| generate (n) }.join("\n")
 
       node.elif_blocks.each do |c|
-        compiled << "elseif #{generate(c.condition)} then\n"
+        compiled << "\nelseif #{generate(c.condition)} then\n"
         compiled << c.body.map { |n| generate (n) }.join("\n")
       end
 
       if node.else_body
-        compiled << "else\n"
+        compiled << "\nelse\n"
         compiled << node.else_body.map { |n| generate (n) }.join("\n")
       end
 
-      compiled << "end"
+      compiled << "\nend"
       compiled
 
     when WhileNode
