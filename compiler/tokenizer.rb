@@ -6,18 +6,9 @@ class Tokenizer
     [:local, /\bnat\b/],
     [:def, /\bcall\b/],
     [:end, /\bdone\b/],
-    [:identifier, /\b[a-zA-Z]+\b/],
-    [:integer, /\b[0-9]+\b/],
-    [:oparen, /\(/],
-    [:cparen, /\)/],
-    [:comma, /,/],
-    [:string, /"([^"]*)"/],
-
-    # operators
-    [:equal, /=/],
-    [:plus, /\+/],
-    [:newline, /\n+/],
-    [:space, /[ \t]+/], 
+    [:if, /\bif\b/],
+    [:print, /\bprint\b/],
+    [:return, /\breturn\b/],
 
     #love 
     [:lgraphics, /-G:/],
@@ -30,6 +21,26 @@ class Tokenizer
     [:ljoystick, /-J:/],
     [:lmouse, /-M:/],
     [:lkeyboard, /-K:/],
+
+    [:identifier, /\b[a-zA-Z]+\b/],
+    [:string, /"([^"]*)"/],
+    [:integer, /\b[0-9]+\b/],
+    [:oparen, /\(/],
+    [:cparen, /\)/],
+    [:comma, /,/],
+
+
+    # operators
+    [:dequal, /==/],
+    [:equal, /=/],
+    [:divide, /\//],
+    [:multiply, /\*/],
+    [:plus, /\+/],
+    [:minus, /\-/],
+    [:newline, /\n+/],
+    [:space, /[ \t]+/], 
+
+
 
 
   ]

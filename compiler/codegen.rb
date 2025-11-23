@@ -13,9 +13,22 @@ class Generator
           generate(node.body)
         end
 
-      "function %s(%s) return %s end" % [
+      "function %s(%s) %s end" % [
         node.name,
         node.args.join(","),
+        body_code
+      ]
+
+    when IfNode
+      body_code = 
+      if node.body.is_a?(Array)
+        node.body.map { |n| generate (n) }.join("\n")
+      else
+        generate(node.body)
+      end
+
+      "if %s then %s end" % [
+        generate(node.statement),
         body_code
       ]
 
@@ -23,6 +36,11 @@ class Generator
       "%s(%s)" % [
         node.name,
         node.arg_expr.map { |expr| generate(expr) }.join(",")
+      ]
+
+    when PrintNode
+      "print(%s)" % [
+        node.args.map { |expr| generate(expr) }.join(",")
       ]
 
     when VarAssignNode
@@ -38,13 +56,18 @@ class Generator
       ]
 
     when BinOpNode
-      "(#{generate(node.left)} + #{generate(node.right)})"
+      "(#{generate(node.left)} #{OP_NAMESPACES[node.op]} #{generate(node.right)})"
 
     when LoveCallNode
       "love.%s.%s(%s)" % [
         node.namespace,
         node.name,
         node.args.map { |expr| generate(expr) }.join(",")
+      ]
+
+    when ReturnNode
+      "return %s" % [
+        generate(node.statement)
       ]
 
     when VarRefNode

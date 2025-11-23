@@ -1,8 +1,7 @@
-local x = (200 + 25)
-local y = (225 + x)
-function add(a,b) return (a + b) end
-z = add(x,y)
-love.graphics.draw(player,x,y)
-love.graphics.push()
-love.graphics.pop()
-love.audio.new("paths",20)
+local coins = 250
+local incrementVal = 20
+local multiplier = 2
+if love.keyboard.isDown("space") then incrementCoin(3) end
+function incrementCoin(externalMultiplier) coins = (coins + ((incrementVal * multiplier) * externalMultiplier))
+return coins end
+print(coins)

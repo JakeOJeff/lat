@@ -1,14 +1,14 @@
-nat x = 200 + 25
-nat y = 225 + x
+nat coins = 250
+nat incrementVal = 20
+nat multiplier = 2
 
-call add(a, b)
-    a + b
+if (-K:isDown("space"))
+    incrementCoin(3)
 done
 
-z = add(x, y)
+call incrementCoin(externalMultiplier)
+    coins = coins + incrementVal * multiplier * externalMultiplier 
+    return coins
+done
 
--G:draw(player, x, y)
--G:push()
-
--G:pop()
--A:new("paths", 20)
+print(coins)
