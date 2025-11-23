@@ -13,7 +13,7 @@ class Tokenizer
     [:or, /\bor\b/],
     [:and, /\band\b/],
     [:switch, /\bswitch\b/],
-    [:to, /\bto\b/]
+    [:to, /\bto\b/],
 
     #love 
     [:lgraphics, /-G:/],
@@ -40,7 +40,7 @@ class Tokenizer
     [:greater, />/],
     [:lesser, /</],
     [:grequal, />=/],
-    [:lequal, /<=/]
+    [:lequal, /<=/],
     [:equal, /=/],
     [:divide, /\//],
     [:multiply, /\*/],

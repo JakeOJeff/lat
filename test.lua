@@ -11,4 +11,9 @@ end
 while true do 
   
 end
+if 10 == score then
+ print("perfect")
+elseif 5 == score then
+ print("ok")
+end
 print(coins)
