@@ -9,6 +9,8 @@ class Tokenizer
     [:if, /\bif\b/],
     [:print, /\bprint\b/],
     [:return, /\breturn\b/],
+    [:or, /\bor\b/],
+    [:and, /\band\b/],
 
     #love 
     [:lgraphics, /-G:/],
