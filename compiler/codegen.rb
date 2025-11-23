@@ -44,6 +44,24 @@ class Generator
         generate(node.statement),
         body_code
       ]
+
+    when SwitchNode
+      compiled = ""
+      node.cases.each_with_index do |c, i|
+        if i == 0
+          compiled << "if #{generate(c.match)} == #{generate(node.value)} then\n"
+        else
+          compiled << "elseif #{generate(c.match)} == #{generate(node.value)} then\n"
+        end
+
+        body_code = c.body.map { |b| generate(b) }.join("\n")
+        compiled << " #{body_code}\n"
+
+      end
+      compiled << "end"
+      compiled
+
+
     when CallNode
       "%s(%s)" % [
         node.name,

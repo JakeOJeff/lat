@@ -16,5 +16,13 @@ when (true)
 
 done
 
+switch score 
+    t 10
+        print("perfect")
+    t 5
+        print("ok)
+
+done
+
 
 print(coins)
