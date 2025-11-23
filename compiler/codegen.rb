@@ -13,7 +13,7 @@ class Generator
           generate(node.body)
         end
 
-      "function %s(%s) return %s end" % [
+      "function %s(%s) %s end" % [
         node.name,
         node.args.join(","),
         body_code
