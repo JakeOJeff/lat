@@ -8,12 +8,12 @@ class Generator
     when DefNode
       body_code = 
         if node.body.is_a?(Array)
-          node.body.map { |n| generate (n) }.join("\n")
+          node.body.map { |n| generate (n) }.join("\n  ")
         else
           generate(node.body)
         end
 
-      "function %s(%s) %s end" % [
+      "function %s(%s)\n  %s \nend" % [
         node.name,
         node.args.join(","),
         body_code
