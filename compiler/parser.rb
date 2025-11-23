@@ -9,6 +9,7 @@ VarSetNode = Struct.new(:name, :value)
 BinOpNode = Struct.new(:left, :op, :right)
 PrintNode = Struct.new(:args)
 ReturnNode = Struct.new(:statement)
+AndOrListNode = Struct.new(:items)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
 
@@ -236,10 +237,31 @@ class Parser
       StringNode.new(strVal[1..-2])
 
     elsif peek(:oparen)
+      # consume(:oparen)
+      # expr = parse_expr
+      # consume(:cparen)
+      # expr
       consume(:oparen)
-      expr = parse_expr
+
+      first = parse_expr
+      items = [first]
+      until peek(:identifier) && peek(:or) && peek(:dequal) && peek(:cparen) && peek(:plus)
+        break
+      end
+
+      if !peek(:identifier) && peek(:or)
+        while peek(:or)
+          consume(:or)
+          items << parse_expr
+        end
+        consume(:cparen)
+        return AndOrListNode.new(items)
+      end
+
+      expr = first
       consume(:cparen)
       expr
+
 
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
       parse_love_call
