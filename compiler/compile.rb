@@ -3,7 +3,10 @@ require_relative "tokenizer"
 require_relative "parser"
 require_relative "codegen"
 
-input = File.read("examples/main.lat")
+inputFile = "examples/main.lat"
+outputFile = "test.lua"
+
+input = File.read(inputFile)
 
 tokens = Tokenizer.new(input).tokenize
 puts "--- TOKENS ---"
@@ -16,4 +19,4 @@ p tree
 generated = Generator.new.generate(tree)
 puts "--- LUA OUTPUT ---"
 puts generated
-File.open("test.lua", 'w') { |file| file.write(generated)}
+File.open(outputFile, 'w') { |file| file.write(generated)}
