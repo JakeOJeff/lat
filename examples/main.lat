@@ -4,6 +4,8 @@ nat multiplier = 2
 
 if (-K:isDown("space"))
     incrementCoin(3)
+elif (-K:isDown("w"))
+    incrementCoin(3)
 done
 
 

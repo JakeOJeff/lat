@@ -22,18 +22,18 @@ class Generator
     when IfNode
       compiled = ""
 
-      first = node.statement
+      first = node.condition
       compiled << "if #{generate(first)} then\n"
       compiled << node.body.map { |n| generate (n) }.join("\n")
 
-      node.elif_blocks[1..]&.each do |c|
+      node.elif_blocks.each do |c|
         compiled << "elseif #{generate(c.condition)} then\n"
         compiled << c.body.map { |n| generate (n) }.join("\n")
       end
 
       if node.else_body
         compiled << "else\n"
-        compiled << c.else_body.map { |n| generate (n) }.join("\n")
+        compiled << node.else_body.map { |n| generate (n) }.join("\n")
       end
 
       compiled << "end"
