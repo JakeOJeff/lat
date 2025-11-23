@@ -77,6 +77,12 @@ class Parser
     DefNode.new(name, args, body)
   end
 
+  def parse_return
+    consume(:return)
+    statement = parse_expr
+    ReturnNode.new(statement)
+  end
+
   def parse_if
     consume(:if)
 
@@ -121,6 +127,8 @@ class Parser
       parse_var_assign
     elsif peek(:identifier) && peek(:equal, 1)
       parse_var_set
+    elsif peek(:return)
+      parse_return
     else
       parse_expr
     end

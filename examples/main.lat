@@ -8,6 +8,7 @@ done
 
 call incrementCoin(externalMultiplier)
     coins = coins + incrementVal * multiplier * externalMultiplier 
+    return coins
 done
 
 print(coins)

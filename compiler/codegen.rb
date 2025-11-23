@@ -65,6 +65,11 @@ class Generator
         node.args.map { |expr| generate(expr) }.join(",")
       ]
 
+    when ReturnNode
+      "return %s" % [
+        generate(node.statement)
+      ]
+
     when VarRefNode
       node.value
 

@@ -8,7 +8,7 @@ class Tokenizer
     [:end, /\bdone\b/],
     [:if, /\bif\b/],
     [:print, /\bprint\b/],
-    [:return, /\breturn\b/]
+    [:return, /\breturn\b/],
 
     #love 
     [:lgraphics, /-G:/],
