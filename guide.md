@@ -1,4 +1,4 @@
-# Guide
+# Syntax Guide
 This is a temporary guide on how the language works
 
 ## Variable Initialization
@@ -63,4 +63,28 @@ This is a temporary guide on how the language works
 
 
 ## Switch Statements
+
+
+```
+    switch [value]
+        to [val1]
+            [body]
+        to [val2]
+            [body]
+    done
+
+```
+
+## Print Statements
+
+```
+    print(statement)
+```
+
+## Return Statements
+
+```
+    return [item]
+```
+
 
