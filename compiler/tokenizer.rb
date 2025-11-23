@@ -12,6 +12,8 @@ class Tokenizer
     [:return, /\breturn\b/],
     [:or, /\bor\b/],
     [:and, /\band\b/],
+    [:switch, /\bswitch\b/],
+    [:to, /\bto\b/]
 
     #love 
     [:lgraphics, /-G:/],

@@ -11,6 +11,8 @@ BinOpNode = Struct.new(:left, :op, :right)
 PrintNode = Struct.new(:args)
 ReturnNode = Struct.new(:statement)
 AndOrListNode = Struct.new(:items)
+SwitchNode = Struct.new(:value, :cases)
+CaseNode = Struct.new(:match, :body)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
 
