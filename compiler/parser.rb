@@ -131,6 +131,32 @@ class Parser
     WhileNode.new(statement, body)
   end
 
+  def parse_switch
+    consume(:switch)
+    value = parse_expr
+    skip_newlines
+
+    cases = []
+
+    while peek(:to)
+      consume(:to)
+      match = parse_expr
+      skip_newlines
+    
+      body = []
+
+      until peek(:to) || peek(:end)
+        body << parse_statement
+        skip_newlines
+      end
+
+      cases << CaseNode.new(match, body)
+    end
+
+    consume(:end)
+    SwitchNode.new(value, cases)
+  end
+
 
   def parse_print
     consume(:print)
@@ -150,6 +176,8 @@ class Parser
       parse_if
     elsif peek(:while)
       parse_while
+    elsif peek(:switch)
+      parse_switch
     elsif peek(:print)
       parse_print
     elsif peek(:local)
