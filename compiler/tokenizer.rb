@@ -7,6 +7,8 @@ class Tokenizer
     [:def, /\bcall\b/],
     [:end, /\bdone\b/],
     [:if, /\bif\b/],
+    [:elif, /\belif\b/],
+    [:else, /\belse\b/],
     [:while, /\bwhen\b/],
     [:print, /\bprint\b/],
     [:return, /\breturn\b/],

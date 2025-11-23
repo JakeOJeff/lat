@@ -1,5 +1,5 @@
 DefNode  = Struct.new(:name, :args, :body)
-IfNode = Struct.new(:statement, :body)
+IfNode = Struct.new(:statement, :cases)
 WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -88,25 +88,51 @@ class Parser
   end
 
   def parse_if
+
     consume(:if)
-
-    if peek(:oparen)
-      consume(:oparen)
-      statement = parse_expr
-      consume(:cparen)
-    else
-      statement = parse_expr
-    end
+    condition = parse_expr
     skip_newlines
-    body = []
-
-    until peek(:end)
-      body << parse_statement
+    if_body = []
+    while !peek(:elif) && !peek(:else) && !peek(:end)
+      if_body << parse_statement
       skip_newlines
     end
-    consume(:end)
-    IfNode.new(statement, body)
+
+
+    elif_blocks = []
+    while peek(:elif)
+      consume(:elif)
+      elif_condition = parse_expr
+      skip_newlines
+
+      elif_body = []
+      while !peek(:elif) && !peek(:else) && !peek(:end)
+        elif_body << parse_statement
+        skip_newlines
+      end
+
+      
+
   end
+
+    # consume(:if)
+
+    # if peek(:oparen)
+    #   consume(:oparen)
+    #   statement = parse_expr
+    #   consume(:cparen)
+    # else
+    #   statement = parse_expr
+    # end
+    # skip_newlines
+    # body = []
+
+    # until peek(:elif) peek(:end)
+    #   body << parse_statement
+    #   skip_newlines
+    # end
+    # consume(:end)
+    # IfNode.new(statement, body)
 
   def parse_while
     consume(:while)
