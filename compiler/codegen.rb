@@ -56,6 +56,11 @@ class Generator
       ]
 
     when BinOpNode
+      if node.right.is_a?(AndOrListNode) && node.op == :dequal
+        left = generate(node.left)
+        parts = node.right.items.map{ |item| "#{left} == #{generate(item)}"}
+        return "(#{parts.join(' or ')})"
+      end
       "(#{generate(node.left)} #{OP_NAMESPACES[node.op]} #{generate(node.right)})"
 
     when LoveCallNode
