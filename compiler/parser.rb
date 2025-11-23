@@ -1,5 +1,8 @@
 DefNode  = Struct.new(:name, :args, :body)
-IfNode = Struct.new(:statement, :cases)
+
+IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
+ElifBlock = Struct.new(:condition, :body)
+
 WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -111,8 +114,27 @@ class Parser
         skip_newlines
       end
 
-      
+      elif_blocks << ElifBlock.new(elif_condition, elif_body)
 
+    end
+
+    else_body = nil
+    if peek(:else)
+      consume(:else)
+      skip_newlines
+
+      else_body = []
+      while !peek(:end)
+        else_body << parse_statement
+        skip_newlines
+      end
+    end
+
+    consume(:end)
+
+    IfNode.new(condition, if_body, elif_blocks, else_body)
+
+    
   end
 
     # consume(:if)
