@@ -4,6 +4,8 @@ nat multiplier = 2
 
 if (-K:isDown("space"))
     incrementCoin(3)
+elif (-K:isDown("w"))
+    incrementCoin(3)
 done
 
 
@@ -13,6 +15,14 @@ call incrementCoin(externalMultiplier)
 done
 
 when (true)
+
+done
+
+switch score 
+    to 10
+        print("perfect")
+    to 5
+        print("ok")
 
 done
 

@@ -20,17 +20,24 @@ class Generator
       ]
 
     when IfNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map { |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
+      compiled = ""
+
+      first = node.condition
+      compiled << "if #{generate(first)} then\n"
+      compiled << node.body.map { |n| generate (n) }.join("\n")
+
+      node.elif_blocks.each do |c|
+        compiled << "\nelseif #{generate(c.condition)} then\n"
+        compiled << c.body.map { |n| generate (n) }.join("\n")
       end
 
-      "if %s then \n %s \nend" % [
-        generate(node.statement),
-        body_code
-      ]
+      if node.else_body
+        compiled << "\nelse\n"
+        compiled << node.else_body.map { |n| generate (n) }.join("\n")
+      end
+
+      compiled << "\nend"
+      compiled
 
     when WhileNode
       body_code = 
@@ -44,6 +51,24 @@ class Generator
         generate(node.statement),
         body_code
       ]
+
+    when SwitchNode
+      compiled = ""
+      node.cases.each_with_index do |c, i|
+        if i == 0
+          compiled << "if #{generate(c.match)} == #{generate(node.value)} then\n"
+        else
+          compiled << "elseif #{generate(c.match)} == #{generate(node.value)} then\n"
+        end
+
+        body_code = c.body.map { |b| generate(b) }.join("\n")
+        compiled << " #{body_code}\n"
+
+      end
+      compiled << "end"
+      compiled
+
+
     when CallNode
       "%s(%s)" % [
         node.name,

@@ -1,5 +1,8 @@
 DefNode  = Struct.new(:name, :args, :body)
-IfNode = Struct.new(:statement, :body)
+
+IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
+ElifBlock = Struct.new(:condition, :body)
+
 WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -11,6 +14,8 @@ BinOpNode = Struct.new(:left, :op, :right)
 PrintNode = Struct.new(:args)
 ReturnNode = Struct.new(:statement)
 AndOrListNode = Struct.new(:items)
+SwitchNode = Struct.new(:value, :cases)
+CaseNode = Struct.new(:match, :body)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
 
@@ -86,25 +91,70 @@ class Parser
   end
 
   def parse_if
+
     consume(:if)
-
-    if peek(:oparen)
-      consume(:oparen)
-      statement = parse_expr
-      consume(:cparen)
-    else
-      statement = parse_expr
-    end
+    condition = parse_expr
     skip_newlines
-    body = []
-
-    until peek(:end)
-      body << parse_statement
+    if_body = []
+    while !peek(:elif) && !peek(:else) && !peek(:end)
+      if_body << parse_statement
       skip_newlines
     end
+
+
+    elif_blocks = []
+    while peek(:elif)
+      consume(:elif)
+      elif_condition = parse_expr
+      skip_newlines
+
+      elif_body = []
+      while !peek(:elif) && !peek(:else) && !peek(:end)
+        elif_body << parse_statement
+        skip_newlines
+      end
+
+      elif_blocks << ElifBlock.new(elif_condition, elif_body)
+
+    end
+
+    else_body = nil
+    if peek(:else)
+      consume(:else)
+      skip_newlines
+
+      else_body = []
+      while !peek(:end)
+        else_body << parse_statement
+        skip_newlines
+      end
+    end
+
     consume(:end)
-    IfNode.new(statement, body)
+
+    IfNode.new(condition, if_body, elif_blocks, else_body)
+
+    
   end
+
+    # consume(:if)
+
+    # if peek(:oparen)
+    #   consume(:oparen)
+    #   statement = parse_expr
+    #   consume(:cparen)
+    # else
+    #   statement = parse_expr
+    # end
+    # skip_newlines
+    # body = []
+
+    # until peek(:elif) peek(:end)
+    #   body << parse_statement
+    #   skip_newlines
+    # end
+    # consume(:end)
+    # IfNode.new(statement, body)
 
   def parse_while
     consume(:while)
@@ -129,6 +179,32 @@ class Parser
     WhileNode.new(statement, body)
   end
 
+  def parse_switch
+    consume(:switch)
+    value = parse_expr
+    skip_newlines
+
+    cases = []
+
+    while peek(:to)
+      consume(:to)
+      match = parse_expr
+      skip_newlines
+    
+      body = []
+
+      until peek(:to) || peek(:end)
+        body << parse_statement
+        skip_newlines
+      end
+
+      cases << CaseNode.new(match, body)
+    end
+
+    consume(:end)
+    SwitchNode.new(value, cases)
+  end
+
 
   def parse_print
     consume(:print)
@@ -148,6 +224,8 @@ class Parser
       parse_if
     elsif peek(:while)
       parse_while
+    elsif peek(:switch)
+      parse_switch
     elsif peek(:print)
       parse_print
     elsif peek(:local)
