@@ -5,27 +5,27 @@ This is a temporary guide on how the language works
 
 ### Global Variables
 
-```
+```lua
     x = 10
     x = x + 5
 ```
 
 ### Local Variables
 
-```
+```lua
     nat y = x + 20
     nat z = 20
 ```
 
 ## Functions
 
-```
+```lua
     call funcName(args)
         [body]
     done
 ```
 
-```
+```lua
     funcName(val)
 ```
 
@@ -33,7 +33,7 @@ This is a temporary guide on how the language works
 
 ### Normal Statements
 
-```
+```lua
     if (statement)
         [body]
     done
@@ -41,7 +41,7 @@ This is a temporary guide on how the language works
 
 ### Else and Else If Statements
 
-```
+```python
     if (statement1)
         [body]
     elif (statement2)
@@ -55,7 +55,7 @@ This is a temporary guide on how the language works
 
 ### While Loops
 
-```
+```ruby
     when (statement)
         [body]
     done
@@ -65,9 +65,9 @@ This is a temporary guide on how the language works
 ## Switch Statements
 
 
-```
+```java
     switch [value]
-        to [val1]
+       e to [val1]
             [body]
         to [val2]
             [body]
@@ -77,13 +77,13 @@ This is a temporary guide on how the language works
 
 ## Print Statements
 
-```
+```lua
     print(statement)
 ```
 
 ## Return Statements
 
-```
+```lua
     return [item]
 ```
 
