@@ -6,9 +6,6 @@ if (-K:isDown("space"))
     incrementCoin(3)
 done
 
-if (a == (2 or 3 or 5))
-    
-done
 
 call incrementCoin(externalMultiplier)
     coins = coins + incrementVal * multiplier * externalMultiplier 

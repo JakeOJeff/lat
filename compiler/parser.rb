@@ -1,5 +1,6 @@
 DefNode  = Struct.new(:name, :args, :body)
 IfNode = Struct.new(:statement, :body)
+WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
@@ -105,6 +106,29 @@ class Parser
     IfNode.new(statement, body)
   end
 
+  def parse_while
+    consume(:while)
+
+    if peek(:oparen)
+      consume(:oparen)
+      statement = parse_expr
+      consume(:cparen)
+    else
+      statement = parse_expr
+    end
+
+    skip_newlines
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
+
+    consume(:end)
+    WhileNode.new(statement, body)
+  end
+
 
   def parse_print
     consume(:print)
@@ -122,6 +146,8 @@ class Parser
       parse_def
     elsif peek(:if)
       parse_if
+    elsif peek(:while)
+      parse_while
     elsif peek(:print)
       parse_print
     elsif peek(:local)
