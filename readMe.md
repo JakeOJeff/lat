@@ -16,13 +16,13 @@ Clone this repo
     git clone https://github.com/JakeOJeff/lat.git
 ```
 
-Write the code in a .lat file and set the input location in [Compile](.\compiler\compile.rb)
+Write the code in a .lat file and set the input location in [Compile](compiler/compile.rb)
 
 ```lua 
     inputFile = "path/to/file.lat"
 ```
 
-Set an Output .lua file in [Compile](/compiler\compile.rb)
+Set an Output .lua file in [Compile](compiler/compile.rb)
 
 ```lua
     outputFile = "path/to/file.lua"
