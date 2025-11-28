@@ -1,4 +1,6 @@
 # LatLang
+![Commits](https://img.shields.io/github/commit-activity/w/https%3A%2F%2Fgithub.com%2FJakeOJeff/https%3A%2F%2Fgithub.com%2FJakeOJeff%2Flat)
+![Stars](https://img.shields.io/github/stars/https%3A%2F%2Fgithub.com%2FJakeOJeff/https%3A%2F%2Fgithub.com%2FJakeOJeff%2Flat)
 
 A **Framework** which compiles to Lua Love. Made in Ruby.
 
@@ -20,7 +22,7 @@ Write the code in a .lat file and set the input location in [Compile](.\compiler
     inputFile = "path/to/file.lat"
 ```
 
-Set an Output .lua file in [Compile](.\compiler\compile.rb)
+Set an Output .lua file in [Compile](/compiler\compile.rb)
 
 ```lua
     outputFile = "path/to/file.lua"
