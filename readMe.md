@@ -32,4 +32,9 @@ Compile the code in the terminal
 
 ```
     ruby .\compiler\compile.rb
-``` 
+```
+
+
+Demo:
+https://github.com/user-attachments/assets/f6d9b55f-e87e-4b20-a7c2-ed81e19414e4
+
