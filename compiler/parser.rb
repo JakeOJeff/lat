@@ -64,6 +64,32 @@ class Parser
     statements
   end
 
+  def parse_statement
+
+    skip_newlines
+    return nil if peek(:end)
+
+    if peek(:def)
+      parse_def
+    elsif peek(:if)
+      parse_if
+    elsif peek(:while)
+      parse_while
+    elsif peek(:switch)
+      parse_switch
+    elsif peek(:print)
+      parse_print
+    elsif peek(:local)
+      parse_var_assign
+    elsif peek(:identifier) && peek(:equal, 1)
+      parse_var_set
+    elsif peek(:return)
+      parse_return
+    else
+      parse_expr
+    end
+  end
+
   def skip_newlines
     consume(:newline) while peek(:newline)
   end
@@ -84,14 +110,7 @@ class Parser
     DefNode.new(name, args, body)
   end
 
-  def parse_return
-    consume(:return)
-    statement = parse_expr
-    ReturnNode.new(statement)
-  end
-
   def parse_if
-
     consume(:if)
     condition = parse_expr
     skip_newlines
@@ -100,7 +119,6 @@ class Parser
       if_body << parse_statement
       skip_newlines
     end
-
 
     elif_blocks = []
     while peek(:elif)
@@ -115,7 +133,6 @@ class Parser
       end
 
       elif_blocks << ElifBlock.new(elif_condition, elif_body)
-
     end
 
     else_body = nil
@@ -133,28 +150,7 @@ class Parser
     consume(:end)
 
     IfNode.new(condition, if_body, elif_blocks, else_body)
-
-    
   end
-
-    # consume(:if)
-
-    # if peek(:oparen)
-    #   consume(:oparen)
-    #   statement = parse_expr
-    #   consume(:cparen)
-    # else
-    #   statement = parse_expr
-    # end
-    # skip_newlines
-    # body = []
-
-    # until peek(:elif) peek(:end)
-    #   body << parse_statement
-    #   skip_newlines
-    # end
-    # consume(:end)
-    # IfNode.new(statement, body)
 
   def parse_while
     consume(:while)
@@ -205,45 +201,10 @@ class Parser
     SwitchNode.new(value, cases)
   end
 
-
   def parse_print
     consume(:print)
     args = parse_arg_expr
     PrintNode.new(args)
-    
-  end
-
-  def parse_statement
-
-    skip_newlines
-    return nil if peek(:end)
-
-    if peek(:def)
-      parse_def
-    elsif peek(:if)
-      parse_if
-    elsif peek(:while)
-      parse_while
-    elsif peek(:switch)
-      parse_switch
-    elsif peek(:print)
-      parse_print
-    elsif peek(:local)
-      parse_var_assign
-    elsif peek(:identifier) && peek(:equal, 1)
-      parse_var_set
-    elsif peek(:return)
-      parse_return
-    else
-      parse_expr
-    end
-  end
-
-  def parse_var_set
-    name = consume(:identifier).value
-    consume(:equal)
-    value = parse_expr
-    VarSetNode.new(name, value)
   end
 
   def parse_var_assign
@@ -253,6 +214,41 @@ class Parser
     value = parse_expr
     VarAssignNode.new(name, value)
   end
+
+  def parse_var_set
+    name = consume(:identifier).value
+    consume(:equal)
+    value = parse_expr
+    VarSetNode.new(name, value)
+  end
+
+  def parse_return
+    consume(:return)
+    statement = parse_expr
+    ReturnNode.new(statement)
+  end
+
+  def parse_expr
+    parse_equality
+  end
+    # consume(:if)
+
+    # if peek(:oparen)
+    #   consume(:oparen)
+    #   statement = parse_expr
+    #   consume(:cparen)
+    # else
+    #   statement = parse_expr
+    # end
+    # skip_newlines
+    # body = []
+
+    # until peek(:elif) peek(:end)
+    #   body << parse_statement
+    #   skip_newlines
+    # end
+    # consume(:end)
+    # IfNode.new(statement, body)
 
   def parse_args
     consume(:oparen)
@@ -268,9 +264,7 @@ class Parser
     args
   end
 
-  def parse_expr
-    parse_equality
-  end
+
   def parse_equality
     left = parse_additive
 
