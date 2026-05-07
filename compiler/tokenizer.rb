@@ -17,7 +17,7 @@ class Tokenizer
     [:switch, /\bswitch\b/],
     [:to, /\bto\b/],
     [:class, /\bclass\b/],
-    [:self, /\bself:\b/],
+    [:self, /\bself\b/],
 
     #love 
     [:lgraphics, /-G:/],
@@ -31,6 +31,7 @@ class Tokenizer
     [:lmouse, /-M:/],
     [:lkeyboard, /-K:/],
 
+    # thingies
     [:identifier, /\b[a-zA-Z]+\b/],
     [:string, /"([^"]*)"/],
     [:integer, /\b[0-9]+\b/],
@@ -53,7 +54,6 @@ class Tokenizer
     [:minus, /\-/],
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
-
 
   ]
 

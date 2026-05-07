@@ -386,6 +386,16 @@ class Parser
 
   def parse_self_node
     consume(:self)
+    
+    type = ""
+    if peek(:dot)
+      consume(:dot)
+      parse_type = "dot"
+    elsif peek(:semicolon)
+      consume(:semicolon)
+      parse_type = "semicolon"
+    end
+
     name = consume(:identifier).value
 
     if peek(:oparen)
@@ -394,7 +404,7 @@ class Parser
       args = []
     end
 
-    SelfNode.new(name, args)
+    SelfNode.new(name, parse_type, args)
   end
 
   def parse_call
