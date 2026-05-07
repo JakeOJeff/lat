@@ -360,6 +360,8 @@ class Parser
       expr = first
       consume(:cparen)
       expr
+    elsif peek(:self)
+      parse_self_node
 
 
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
@@ -380,6 +382,16 @@ class Parser
     args = parse_arg_expr
 
     LoveCallNode.new(namespace, name, args)
+  end
+
+  def parse_self_node
+    consume(:self)
+    name = consume(:identifier).value
+
+    if peek(:oparen)
+      args = parse_args
+    end
+
   end
 
   def parse_call
