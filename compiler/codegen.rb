@@ -100,6 +100,15 @@ class Generator
       end
       "(#{generate(node.left)} #{OP_NAMESPACES[node.op]} #{generate(node.right)})"
 
+    when SelfNode
+      selfstring = "self:#{node.name}"
+    
+      unless node.args.empty?
+        args_string = node.args.map {|expr| generate(expr) }.join(",")
+        selfstring += "(#{args_string})"
+      end
+      selfstring
+
     when LoveCallNode
       "love.%s.%s(%s)" % [
         node.namespace,

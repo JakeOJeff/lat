@@ -17,7 +17,7 @@ class Tokenizer
     [:switch, /\bswitch\b/],
     [:to, /\bto\b/],
     [:class, /\bclass\b/],
-    [:self, /\bself\b/]
+    [:self, /\bself:\b/],
 
     #love 
     [:lgraphics, /-G:/],
@@ -37,7 +37,8 @@ class Tokenizer
     [:oparen, /\(/],
     [:cparen, /\)/],
     [:comma, /,/],
-
+    [:dot, /./],
+    [:semicolon, /:/],
 
     # operators
     [:dequal, /==/],
@@ -52,8 +53,6 @@ class Tokenizer
     [:minus, /\-/],
     [:newline, /\n+/],
     [:space, /[ \t]+/], 
-
-
 
 
   ]

@@ -390,8 +390,11 @@ class Parser
 
     if peek(:oparen)
       args = parse_args
+    else
+      args = []
     end
 
+    SelfNode.new(name, args)
   end
 
   def parse_call
