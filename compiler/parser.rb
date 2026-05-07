@@ -1,4 +1,5 @@
 DefNode  = Struct.new(:name, :args, :body)
+ClassNode = Struct.new(:name, :args, :defs )
 
 IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
 ElifBlock = Struct.new(:condition, :body)
@@ -69,7 +70,9 @@ class Parser
     skip_newlines
     return nil if peek(:end)
 
-    if peek(:def)
+    if peek(:class) then
+
+    elsif peek(:def)
       parse_def
     elsif peek(:if)
       parse_if
