@@ -19,6 +19,7 @@ SwitchNode = Struct.new(:value, :cases)
 CaseNode = Struct.new(:match, :body)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
+SelfNode = Struct.new(:name, :args)
 
 
 LOVE_NAMESPACES = {
@@ -232,7 +233,15 @@ class Parser
   end
 
   def parse_expr
-    parse_equality
+    left = parse_additive
+
+    while peek(:dequal)
+      op = consume(:dequal)
+      right = parse_additive
+      left = BinOpNode.new(left, op.type, right)
+    end
+
+    left
   end
     # consume(:if)
 
@@ -268,17 +277,6 @@ class Parser
   end
 
 
-  def parse_equality
-    left = parse_additive
-
-    while peek(:dequal)
-      op = consume(:dequal)
-      right = parse_additive
-      left = BinOpNode.new(left, op.type, right)
-    end
-
-    left
-  end
 
   def parse_additive
     left = parse_multiplicative

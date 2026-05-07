@@ -16,7 +16,8 @@ class Tokenizer
     [:and, /\band\b/],
     [:switch, /\bswitch\b/],
     [:to, /\bto\b/],
-    [:class, /\bclass\b/]
+    [:class, /\bclass\b/],
+    [:self, /\bself\b/]
 
     #love 
     [:lgraphics, /-G:/],
