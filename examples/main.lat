@@ -26,5 +26,6 @@ switch score
 
 done
 
+self.write()
 
 print(coins)

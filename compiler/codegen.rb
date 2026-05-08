@@ -101,7 +101,7 @@ class Generator
       "(#{generate(node.left)} #{OP_NAMESPACES[node.op]} #{generate(node.right)})"
 
     when SelfNode
-      selfstring = "self:#{node.name}"
+      selfstring = "self#{node.type}#{node.name}"
     
       unless node.args.empty?
         args_string = node.args.map {|expr| generate(expr) }.join(",")

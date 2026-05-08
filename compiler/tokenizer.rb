@@ -38,8 +38,8 @@ class Tokenizer
     [:oparen, /\(/],
     [:cparen, /\)/],
     [:comma, /,/],
-    [:dot, /./],
-    [:semicolon, /:/],
+    [:dot, /\./],
+    [:colon, /:/],
 
     # operators
     [:dequal, /==/],

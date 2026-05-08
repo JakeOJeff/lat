@@ -19,7 +19,7 @@ SwitchNode = Struct.new(:value, :cases)
 CaseNode = Struct.new(:match, :body)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
-SelfNode = Struct.new(:name, :args)
+SelfNode = Struct.new(:name, :type, :args)
 
 
 LOVE_NAMESPACES = {
@@ -390,10 +390,9 @@ class Parser
     type = ""
     if peek(:dot)
       consume(:dot)
-      parse_type = "dot"
-    elsif peek(:semicolon)
-      consume(:semicolon)
-      parse_type = "semicolon"
+      type = "."
+    elsif peek(:colon\lo     consume(:colon)
+      type = ":"
     end
 
     name = consume(:identifier).value
@@ -404,8 +403,8 @@ class Parser
       args = []
     end
 
-    SelfNode.new(name, parse_type, args)
-  end
+    SelfNode.new(name, type, args)
+  end   
 
   def parse_call
     name = consume(:identifier).value

@@ -18,4 +18,5 @@ if 10 == score then
 elseif 5 == score then
  print("ok")
 end
+self.write
 print(coins)
