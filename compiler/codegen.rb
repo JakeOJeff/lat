@@ -5,6 +5,8 @@ class Generator
     end 
 
     case node
+    when ClassNode
+      
     when DefNode
       body_code = 
         if node.body.is_a?(Array)

@@ -1,5 +1,6 @@
 DefNode  = Struct.new(:name, :args, :body)
-ClassNode = Struct.new(:name, :args, :defs )
+ClassNode = Struct.new(:name, :defs, :body )
+ClassDefNode = Struct.new(:name, :args, :body)
 
 IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
 ElifBlock = Struct.new(:condition, :body)
@@ -72,7 +73,7 @@ class Parser
     return nil if peek(:end)
 
     if peek(:class) then
-
+      parse_class
     elsif peek(:def)
       parse_def
     elsif peek(:if)
@@ -98,6 +99,43 @@ class Parser
     consume(:newline) while peek(:newline)
   end
 
+  def parse_class
+    consume(:class)
+    name = consume(:identifier).value
+    
+    skip_newlines
+
+    defs = []
+    body = []
+    until peek(:end)
+      if peek(:def)
+        defs << parse_class_def(name)
+      else
+        body << parse_statement
+      end
+      skip_newlines
+    end
+    consume (:end)
+    ClassNode.new(name, defs, body)
+
+  end
+
+  def parse_class_def(name)
+    consume(:def)
+    name = "#{name}:#{consume(:identifier).value}"
+    args = parse_args
+    skip_newlines
+
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
+    consume(:end)
+    ClassDefNode.new(name, args, body)
+  end
+
   def parse_def
     consume(:def)
     name = consume(:identifier).value
@@ -113,6 +151,7 @@ class Parser
     consume(:end)
     DefNode.new(name, args, body)
   end
+
 
   def parse_if
     consume(:if)
