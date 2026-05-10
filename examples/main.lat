@@ -26,6 +26,7 @@ switch score
 
 done
 
-self.write()
+self.write = 5
+self:write(wow)
 
 print(coins)

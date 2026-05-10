@@ -19,7 +19,7 @@ SwitchNode = Struct.new(:value, :cases)
 CaseNode = Struct.new(:match, :body)
 
 LoveCallNode = Struct.new(:namespace, :name, :args)
-SelfNode = Struct.new(:name, :type, :args)
+SelfNode = Struct.new(:name, :type, :args, :value)
 
 
 LOVE_NAMESPACES = {
@@ -391,19 +391,25 @@ class Parser
     if peek(:dot)
       consume(:dot)
       type = "."
-    elsif peek(:colon\lo     consume(:colon)
+    elsif peek(:colon)
+      consume(:colon)
       type = ":"
     end
 
     name = consume(:identifier).value
 
     if peek(:oparen)
-      args = parse_args
+      args = parse_arg_expr # parse args are for func defs and parse args expr is for call
     else
       args = []
     end
 
-    SelfNode.new(name, type, args)
+    if (type == ".") && peek(:equal)
+      consume(:equal)
+      value = parse_expr
+    end
+      
+    SelfNode.new(name, type, args, value)
   end   
 
   def parse_call

@@ -23,20 +23,20 @@ class Generator
       compiled = ""
 
       first = node.condition
-      compiled << "if #{generate(first)} then\n"
+      compiled << "if #{generate(first)} then\n  "
       compiled << node.body.map { |n| generate (n) }.join("\n")
 
       node.elif_blocks.each do |c|
-        compiled << "\nelseif #{generate(c.condition)} then\n"
+        compiled << "\nelseif #{generate(c.condition)} then\n  "
         compiled << c.body.map { |n| generate (n) }.join("\n")
       end
 
       if node.else_body
-        compiled << "\nelse\n"
+        compiled << "\nelse\n  "
         compiled << node.else_body.map { |n| generate (n) }.join("\n")
       end
 
-      compiled << "\nend"
+      compiled << "\nend\n"
       compiled
 
     when WhileNode
@@ -65,7 +65,7 @@ class Generator
         compiled << " #{body_code}\n"
 
       end
-      compiled << "end"
+      compiled << "end\n"
       compiled
 
 
@@ -103,9 +103,13 @@ class Generator
     when SelfNode
       selfstring = "self#{node.type}#{node.name}"
     
-      unless node.args.empty?
+      if !node.args.empty?
         args_string = node.args.map {|expr| generate(expr) }.join(",")
         selfstring += "(#{args_string})"
+      else
+        selfstring += " = %s" % [
+          generate(node.value)
+        ]
       end
       selfstring
 
