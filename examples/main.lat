@@ -30,3 +30,14 @@ self.write = 5
 self:write(wow)
 
 print(coins)
+
+class name
+    hello = 5
+
+    call hi(x, y)
+        x = 5
+        y = 5
+    done
+
+done
+

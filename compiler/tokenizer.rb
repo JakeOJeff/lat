@@ -18,6 +18,7 @@ class Tokenizer
     [:to, /\bto\b/],
     [:class, /\bclass\b/],
     [:self, /\bself\b/],
+    [:import]
 
     #love 
     [:lgraphics, /-G:/],

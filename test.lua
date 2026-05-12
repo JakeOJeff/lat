@@ -23,3 +23,18 @@ end
 self.write = 5
 self:write(wow)
 print(coins)
+
+
+local name = {}
+name.__index = name
+
+function name:new()
+  local instance = setmetatable({}, self)
+  hello = 5
+  return instance
+end
+
+function name:hi(x,y)
+  x = 5
+  y = 5
+end

@@ -6,7 +6,38 @@ class Generator
 
     case node
     when ClassNode
+      out = []
+      out << "local #{node.name} = {}"
+      out << "#{node.name}.__index = #{node.name}"
+
+      out << ""
+
+      # entry point constructor
+      out << "function #{node.name}:new()"
+      out << "  local instance = setmetatable({}, self)"
+      node.body.each do |stmt|
+        if stmt.is_a?(VarAssignNode)
+          out << " instance.#{stmt.name} = #{generate(stmt.value)}"
+        else
+          out << "#{generate(stmt)}"
+        end
+      end
       
+      out << "  return instance"
+      out << "end"
+      out << ""
+
+      #methods
+      node.defs.each do |d|
+        out << generate(d)
+        out << ""
+      end
+     
+      out.join("\n")
+    when ClassDefNode
+      body_code = node.body.map { |n| generate(n) }.join("\n  ")
+     "function %s(%s)\n  %s\nend" % [node.name, node.args.join(","), body_code]
+
     when DefNode
       body_code = 
         if node.body.is_a?(Array)
