@@ -5,6 +5,7 @@ ClassDefNode = Struct.new(:name, :args, :body)
 IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
 ElifBlock = Struct.new(:condition, :body)
 
+ImportNode = Struct.new(:location)
 WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -72,7 +73,9 @@ class Parser
     skip_newlines
     return nil if peek(:end)
 
-    if peek(:class) then
+    if peek(:import) then
+      parse_import
+    elsif peek(:class) then
       parse_class
     elsif peek(:def)
       parse_def
@@ -97,6 +100,13 @@ class Parser
 
   def skip_newlines
     consume(:newline) while peek(:newline)
+  end
+
+  def parse_import
+    consume(:import)
+    location = consume(:string).value
+
+    ImportNode.new(location)
   end
 
   def parse_class
