@@ -1,3 +1,5 @@
+bring "hello"
+
 nat coins = 250
 nat incrementVal = 20
 nat multiplier = 2

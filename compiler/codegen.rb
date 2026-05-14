@@ -5,6 +5,11 @@ class Generator
     end 
 
     case node
+    
+    when ImportNode
+      "require %s" % [
+        node.location
+      ]
     when ClassNode
       out = []
       out << "local #{node.name} = {}"

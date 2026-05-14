@@ -1,3 +1,4 @@
+require "hello"
 local coins = 250
 local incrementVal = 20
 local multiplier = 2
@@ -23,14 +24,12 @@ end
 self.write = 5
 self:write(wow)
 print(coins)
-
-
 local name = {}
 name.__index = name
 
 function name:new()
   local instance = setmetatable({}, self)
-  hello = 5
+hello = 5
   return instance
 end
 
