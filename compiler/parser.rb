@@ -23,6 +23,8 @@ CaseNode = Struct.new(:match, :body)
 LoveCallNode = Struct.new(:namespace, :name, :args)
 SelfNode = Struct.new(:name, :type, :args, :value)
 
+ErrorCallNode = Struct.new()
+
 
 LOVE_NAMESPACES = {
   lgraphics: "graphics",
@@ -65,6 +67,7 @@ class Parser
       statements << parse_statement
       skip_newlines
     end
+    statements << ErrorCallNode.new()
     statements
   end
 
@@ -96,6 +99,8 @@ class Parser
     else
       parse_expr
     end
+
+
   end
 
   def skip_newlines
