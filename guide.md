@@ -1,4 +1,4 @@
-# Syntax Guide
+.# Syntax Guide
 This is a temporary guide on how the language works
 
 ## Variable Initialization

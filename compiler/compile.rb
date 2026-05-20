@@ -9,6 +9,8 @@ if ARGV.empty?
     exit 1
 end
 
+SKIP_RUN = false
+
 if ARGV[0] == "run"
     latcDir = File.join(Dir.pwd, ".latc")
     unless Dir.exist?(latcDir)
@@ -21,6 +23,9 @@ if ARGV[0] == "run"
         exit 1
     end
     exec("love", latcDir)
+elsif ARGV[0] == "build"
+    ARGV.shift
+    SKIP_RUN = true
 end
 inputFile  = ARGV[0]
 
@@ -50,7 +55,7 @@ generated = Generator.new.generate(tree)
 # puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
 
-exec("love", latcDir)
+exec("love", latcDir) unless SKIP_RUN
 
 
 # ln -s "$(pwd)/compiler/compile.rb" /usr/local/bin/lat
