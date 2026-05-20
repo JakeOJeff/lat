@@ -9,6 +9,19 @@ if ARGV.empty?
     exit 1
 end
 
+if ARGV[0] == "run"
+    latcDir = File.join(Dir.pwd, ".latc")
+    unless Dir.exist?(latcDir)
+        puts "Error: no .latc folder foound. Compile something first \n 'lat <input.lat> [main.lua]"
+        exit 1
+    end
+
+    unless File.exist?(File.join(latcDir, "main.lua"))
+        puts "Error: .latc exists but no main.lua found"
+        exit 1
+    end
+    exec("love", latcDir)
+end
 inputFile  = ARGV[0]
 
 unless File.exist?(inputFile)
