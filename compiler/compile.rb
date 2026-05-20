@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 
 require_relative "tokenizer"
 require_relative "parser"
