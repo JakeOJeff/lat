@@ -51,7 +51,7 @@ class Generator
           generate(node.body)
         end
 
-      "function %s(%s)\n  %s \nend" % [
+      "function #{node.type == "love"? "love." : ""}%s(%s)\n  %s \nend" % [
         node.name,
         node.args.join(","),
         body_code

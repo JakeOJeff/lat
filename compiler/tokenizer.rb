@@ -31,7 +31,7 @@ class Tokenizer
     [:ljoystick, /-J:/],
     [:lmouse, /-M:/],
     [:lkeyboard, /-K:/],
-    [:love, /\blove\b/]
+    [:love, /\blove\b/],
 
     # thingies
     [:identifier, /\b[a-zA-Z]+\b/],
