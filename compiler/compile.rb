@@ -4,8 +4,18 @@ require_relative "tokenizer"
 require_relative "parser"
 require_relative "codegen"
 
-inputFile = "examples/main.lat"
-outputFile = "test.lua"
+if ARGV.empty?
+    puts "Usage: lat <input.lat> [output.lua]"
+    exit 1
+end
+
+inputFile  = ARGV[0]
+outputFile = ARGV[1] || File.basename(inputFile, ".*") + ".lua"
+
+unless File.exist?(inputFile)
+    puts "Error: fil `#{inputFile}` not found"
+    exit 1
+end
 
 input = File.read(inputFile)
 
@@ -21,3 +31,5 @@ generated = Generator.new.generate(tree)
 puts "--- LUA OUTPUT ---"
 puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
+
+# ln -s "$(pwd)/compiler/compile.rb" /usr/local/bin/lat
