@@ -10,26 +10,34 @@ if ARGV.empty?
 end
 
 inputFile  = ARGV[0]
-outputFile = ARGV[1] || File.basename(inputFile, ".*") + ".lua"
 
 unless File.exist?(inputFile)
     puts "Error: fil `#{inputFile}` not found"
     exit 1
 end
 
+latcDir = File.join(Dir.pwd, ".latc")
+Dir.mkdir(latcDir) unless Dir.exist?(latcDir)
+
+basename = File.basename(inputFile, ".*")
+outputFile = File.join(latcDir, basename == "main" ? "main.lua" : "#{basename}.lua")
+
 input = File.read(inputFile)
 
 tokens = Tokenizer.new(input).tokenize
-puts "--- TOKENS ---"
-puts tokens.map(&:inspect).join("\n")
+# puts "--- TOKENS ---"
+# puts tokens.map(&:inspect).join("\n")
 
 tree = Parser.new(tokens).parse
-puts "--- AST ---"
-p tree
+# puts "--- AST ---"
+# p tree
 
 generated = Generator.new.generate(tree)
-puts "--- LUA OUTPUT ---"
-puts generated
+# puts "--- LUA OUTPUT ---"
+# puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
+
+exec("love", latcDir)
+
 
 # ln -s "$(pwd)/compiler/compile.rb" /usr/local/bin/lat
