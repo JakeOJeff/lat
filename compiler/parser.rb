@@ -1,4 +1,4 @@
-DefNode  = Struct.new(:name, :args, :body)
+DefNode  = Struct.new(:type, :name, :args, :body)
 ClassNode = Struct.new(:name, :defs, :body )
 ClassDefNode = Struct.new(:name, :args, :body)
 
@@ -148,6 +148,12 @@ class Parser
 
   def parse_def
     consume(:def)
+    type = "normal"
+    if peek(:love)
+      consume(:love)
+      type = "love"
+      consume(:dot)
+    end
     name = consume(:identifier).value
     args = parse_args
 
@@ -159,7 +165,7 @@ class Parser
       skip_newlines
     end
     consume(:end)
-    DefNode.new(name, args, body)
+    DefNode.new(type, name, args, body)
   end
 
 
