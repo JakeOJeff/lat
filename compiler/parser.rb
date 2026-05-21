@@ -511,6 +511,14 @@ class Parser
     consume(:ccparen)
     ArrayNode.new(elements)
 
+  
+  def parse_array_access
+    name = consume(:identifier).value
+    consume(:soparen)
+    index = parse_expr
+    consume(:scparen)
+    ArrayAccessNode.new(name, index)
+
   def consume(type)
     token = @tokens.shift
     raise "Expected #{type}, got #{token.type}" unless token.type == type
