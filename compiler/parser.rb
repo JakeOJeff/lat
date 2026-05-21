@@ -20,6 +20,9 @@ AndOrListNode = Struct.new(:items)
 SwitchNode = Struct.new(:value, :cases)
 CaseNode = Struct.new(:match, :body)
 
+ArrayNode = Struct.new(:elements)
+ArrayAccessNode = Struct.new(:name, :index)
+
 LoveCallNode = Struct.new(:namespace, :name, :args)
 SelfNode = Struct.new(:name, :type, :args, :value)
 
@@ -423,6 +426,9 @@ class Parser
     elsif peek(:self)
       parse_self_node
 
+    elsif peek(:coparen)
+      parse_array
+
 
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
       parse_love_call
@@ -491,6 +497,19 @@ class Parser
     consume(:cparen)
     args
   end
+
+  def parse_array
+    consume(:coparen)
+    elements = []
+    unless peek(:ccparen)
+      elements << parse_expr
+      while peek(:comma)
+        consume(:comma)
+        elements << parse_expr
+      end
+    end
+    consume(:ccparen)
+    ArrayNode.new(elements)
 
   def consume(type)
     token = @tokens.shift
