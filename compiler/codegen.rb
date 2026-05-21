@@ -173,6 +173,13 @@ class Generator
       "\"%s\"" % [
         node.value
       ]
+    
+    when ArrayNode
+      elements = node.elements.map { |e| generate(e) }.join(", ")
+      "{#{elements}}"
+
+    when ArrayAccessNode
+      "#{node.name}[#{generate(node.index)}]"
 
     when ErrorCallNode
       <<~LUA
