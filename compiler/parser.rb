@@ -510,6 +510,7 @@ class Parser
     end
     consume(:ccparen)
     ArrayNode.new(elements)
+  end
 
   
   def parse_array_access
@@ -518,6 +519,7 @@ class Parser
     index = parse_expr
     consume(:scparen)
     ArrayAccessNode.new(name, index)
+  end
 
   def consume(type)
     token = @tokens.shift
