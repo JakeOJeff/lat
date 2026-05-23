@@ -53,6 +53,10 @@ end
 latcDir = File.join(Dir.pwd, ".latc")
 Dir.mkdir(latcDir) unless Dir.exist?(latcDir)
 
+if RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
+  system("attrib +h #{latcDir}") # -h to unhide
+end
+
 basename = File.basename(inputFile, ".*")
 outputFile = File.join(latcDir, basename == "main" ? "main.lua" : "#{basename}.lua")
 
