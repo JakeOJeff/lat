@@ -9,7 +9,23 @@ if ARGV.empty?
     exit 1
 end
 
+def find_love
+    candidates = [
+        "love",
+        "C:/Program Files/LOVE/love.exe",
+        "C:/Program Files (x86)/LOVE/love.exe",
+        ENV["LOVE_PATH"]
+    ].compact
+
+    candidates.each do |path|
+        return path if system("where #{path} >nul 2>&1") || File.exist?(path.to_s)
+    end
+
+    puts "Error: LOVE2D not found. Install it from https://love2d.org or set LOVE_PATH env variable."
+    exit 1
+end
 skip_run = false
+love = find_love()
 
 if ARGV[0] == "run"
     latcDir = File.join(Dir.pwd, ".latc")
@@ -22,7 +38,7 @@ if ARGV[0] == "run"
         puts "Error: .latc exists but no main.lua found"
         exit 1
     end
-    exec("love", latcDir)
+    exec(love, latcDir)
 elsif ARGV[0] == "build"
     ARGV.shift
     skip_run = true
@@ -55,7 +71,6 @@ generated = Generator.new.generate(tree)
 # puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
 
-exec("love", latcDir) unless skip_run
-
+exec(love, latcDir) unless skip_run
 
 # ln -s "$(pwd)/compiler/compile.rb" /usr/local/bin/lat
