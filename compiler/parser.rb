@@ -70,7 +70,7 @@ class Parser
       statements << parse_statement
       skip_newlines
     end
-    statements << ErrorCallNode.new()
+    # statements << ErrorCallNode.new()
     statements
   end
 
