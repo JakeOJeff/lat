@@ -6,5 +6,6 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/JakeOJeff/lat"
   s.files       = Dir["compiler/**/*"]
   s.executables = ["lat"]
+  s.required_ruby_version = '>= 4.0.3'
   s.license     = "MIT"
 end

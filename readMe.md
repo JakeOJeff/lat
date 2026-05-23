@@ -1,6 +1,7 @@
 # LatLang
 ![Stars](https://img.shields.io/github/stars/JakeOJeff/lat?style=flat)
 ![Commits](https://img.shields.io/github/commit-activity/w/JakeOJeff/lat)
+![Downloads](https://img.shields.io/gem/dt/lat)
 ![License](https://img.shields.io/github/license/JakeOJeff/lat)
 
 A **Language** which compiles to Lua, built for [LÖVE](https://love2d.org). Written in Ruby!
