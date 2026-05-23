@@ -1,0 +1,10 @@
+Gem::Specification.new do |s|
+  s.name        = "lat"
+  s.version     = "0.1.0"
+  s.summary     = "A language that compiles to Lua/LÖVE2D"
+  s.authors     = ["JakeOJeff"]
+  s.homepage    = "https://github.com/JakeOJeff/lat"
+  s.files       = Dir["compiler/**/*"]
+  s.executables = ["lat"]
+  s.license     = "MIT"
+end
