@@ -1,40 +1,53 @@
 # LatLang
-![Commits](https://img.shields.io/github/commit-activity/w/https%3A%2F%2Fgithub.com%2FJakeOJeff/https%3A%2F%2Fgithub.com%2FJakeOJeff%2Flat)
-![Stars](https://img.shields.io/github/stars/https%3A%2F%2Fgithub.com%2FJakeOJeff/https%3A%2F%2Fgithub.com%2FJakeOJeff%2Flat)
+![Stars](https://img.shields.io/github/stars/JakeOJeff/lat?style=flat)
+![Commits](https://img.shields.io/github/commit-activity/w/JakeOJeff/lat)
+![License](https://img.shields.io/github/license/JakeOJeff/lat)
 
-A **Framework** which compiles to Lua Love. Made in Ruby.
+A **Language** which compiles to Lua, built for [LÖVE](https://love2d.org). Written in Ruby!
 
-Syntax is inspired frp, Lua, Ruby, Python and Java
+Syntax inspired by Lua, Ruby, Python and Java
+
+## Requirements
+
+- [Ruby](https://www.ruby-lang.org) 
+- [LÖVE2D](https://love2d.org)
 
 ## Setup
 
-[You must have Ruby Installed]
-
-Clone this repo
+### 1. Clone this repo
 
 ```bash
     git clone https://github.com/JakeOJeff/lat.git
+    cd lat
 ```
 
-Write the code in a .lat file and set the input location in [Compile](compiler/compile.rb)
+### 2. Install it
 
-```lua 
-    inputFile = "path/to/file.lat"
+#### Linux/MacOS (tbd)
+
+```bash
+    chmod +x install/install.sh
+    ./install/install.sh
 ```
 
-Set an Output .lua file in [Compile](compiler/compile.rb)
+#### Windows
 
-```lua
-    outputFile = "path/to/file.lua"
+```bat
+    install\install.bat
 ```
 
-Compile the code in the terminal
+### Usage
 
+```bash
+    lat ^<file.lat^> # compile and run
+    lat build # compile only
+    lat run # compile last build
 ```
-    ruby .\compiler\compile.rb
-```
 
+### Syntax
 
-Demo:
+> Syntax guide coming soon. See [guide.md](guide.md) or the Wiki for now.
+
+### Demo:
 https://github.com/user-attachments/assets/f6d9b55f-e87e-4b20-a7c2-ed81e19414e4
 
