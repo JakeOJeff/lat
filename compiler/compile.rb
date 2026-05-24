@@ -32,11 +32,23 @@ def love_installed?
     end
 end
 
+def install_love
+    os = detect_os
+    puts "[lat] Love2D not found, attempting to install"
+    print "Do you want to install Love2d? (y/n)"
+
+    if %w[y yes].include?(answer.downcase)
+        puts "installing love.."
+    else
+        puts "exiting.."
+        exit 1
+    end
+
+end
+
 
 def find_love
-    unless love_installed?
-
-    end
+    install_love unless love_installed?
 
     candidates = [
         "love",
