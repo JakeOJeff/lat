@@ -39,9 +39,32 @@ def install_love
     answer = $stdin.gets.chomp.downcase
 
     if %w[y yes].include?(answer.downcase)
-        puts "installing love.."
+        puts "installing love..."
+
+        case os
+        when :arch
+            system("sudo pacman -S --noconfirm love")
+        when :debian
+            system("sudo apt-get install -y love")
+        when :fedora
+            system("sudo dnf install -y love")
+        when :macos
+            if system("which brew > /dev/null 2>&1")
+                system("brew install love")
+            else
+                puts "[lat] Homebrew not found. Install Love2D from https://love2d.org"
+                exit 1
+            end
+        when :windows
+            puts "[lat] Please install Love2D from https://love2d.org"
+            puts "[lat] Set LOVE_PATH to the love.exe location:"
+            puts '[lat]   setx LOVE_PATH "C:\\Program Files\\LOVE\\love.exe"'
+        else
+            puts "[lat] Can't auto-install on this system. Install LÖVE2D from https://love2d.org"
+            exit 1
+        end
     else
-        puts "exiting.."
+        puts "exiting..."
         exit 1
     end
 
@@ -71,7 +94,7 @@ love = find_love()
 if ARGV[0] == "run"
     latcDir = File.join(Dir.pwd, ".latc")
     unless Dir.exist?(latcDir)
-        puts "Error: no .latc folder foound. Compile something first \n 'lat <input.lat> [main.lua]"
+        puts "Error: no .latc folder found. Compile something first \n 'lat <input.lat> [main.lua]"
         exit 1
     end
 
