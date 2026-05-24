@@ -9,7 +9,35 @@ if ARGV.empty?
     exit 1
 end
 
+def detect_os
+    host = RbConfig::CONFIG["host_os"]
+    return :windows if host =~ /mswin|mingw|cygwin/
+    return :macos if host =~ /darwin/
+    return :arch if File.exist?("/etc/arch-release")
+    return :debian if File.exist?("/etc/debian_version")
+    return :fedora if File.exist?("/etc/fedora-release")
+    :linux
+end
+
+def love_installed?
+    if detect_os == :windows
+        common_paths = [
+            "C:/Program Files/LOVE/love.exe",
+            "C:/Program Files (x86)/LOVE/love.exe",
+            ENV["LOVE_PATH"].to_s
+        ]
+        common_paths.any? { |p| File.exist?(p) }
+    else
+        system("love --version > /dev/null 2>&1")
+    end
+end
+
+
 def find_love
+    unless love_installed?
+
+    end
+
     candidates = [
         "love",
         "C:/Program Files/LOVE/love.exe",
