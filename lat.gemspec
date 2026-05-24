@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "lat"
-  s.version     = "0.1.0"
+  s.version     = "0.1.1"
   s.summary     = "A language that compiles to Lua/LÖVE2D"
   s.authors     = ["JakeOJeff"]
   s.homepage    = "https://github.com/JakeOJeff/lat"

@@ -1,6 +1,6 @@
 # Maintainer: JakeOJeff [ Paulyn Shemy ]
 pkgname=lat
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="A language that compiles to Lua/LOVE2D"
 arch=("any")
