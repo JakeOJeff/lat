@@ -36,6 +36,7 @@ def install_love
     os = detect_os
     puts "[lat] Love2D not found, attempting to install"
     print "Do you want to install Love2d? (y/n)"
+    answer = $stdin.gets.chomp.downcase
 
     if %w[y yes].include?(answer.downcase)
         puts "installing love.."
