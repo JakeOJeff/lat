@@ -1,4 +1,6 @@
 # LatLang
+![Logo](/logo.png)
+
 ![Stars](https://img.shields.io/github/stars/JakeOJeff/lat?style=for-the-badge)
 ![Commits](https://img.shields.io/github/commit-activity/w/JakeOJeff/lat?style=for-the-badge)
 ![Downloads](https://img.shields.io/gem/dt/lat?style=for-the-badge)
