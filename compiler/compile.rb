@@ -74,17 +74,15 @@ end
 def find_love
     install_love unless love_installed?
 
-    candidates = [
-        "love",
-        "C:/Program Files/LOVE/love.exe",
-        "C:/Program Files (x86)/LOVE/love.exe",
-        ENV["LOVE_PATH"]
-    ].compact
-
-    candidates.each do |path|
-        return path if system("where #{path} >nul 2>&1") || File.exist?(path.to_s)
+    if detect_os == :windows
+        candidates = [ENV["LOVE_PATH"], "C:/Program Files/LOVE/love.exe", "C:/Program Files (x86)/LOVE/love.exe"].compact
+        candidates.each { |p| return p if File.exist?(p) }
+    else
+        ["love", "love2d"].each do |cmd|
+            return cmd if system("which #{cmd} > /dev/null 2>&1")
+        end
     end
-
+    
     puts "Error: LOVE2D not found. Install it from https://love2d.org or set LOVE_PATH env variable."
     exit 1
 end
