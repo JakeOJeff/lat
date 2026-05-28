@@ -426,7 +426,7 @@ class Parser
     elsif peek(:self)
       parse_self_node
 
-    elsif peek(:coparen)
+    elsif peek(:lbrace)
       parse_array
 
 
@@ -499,25 +499,25 @@ class Parser
   end
 
   def parse_array
-    consume(:coparen)
+    consume(:lbrace)
     elements = []
-    unless peek(:ccparen)
+    unless peek(:rbrace)
       elements << parse_expr
       while peek(:comma)
         consume(:comma)
         elements << parse_expr
       end
     end
-    consume(:ccparen)
+    consume(:rbrace)
     ArrayNode.new(elements)
   end
 
   
   def parse_array_access
     name = consume(:identifier).value
-    consume(:soparen)
+    consume(:lbracket)
     index = parse_expr
-    consume(:scparen)
+    consume(:rbracket)
     ArrayAccessNode.new(name, index)
   end
 
