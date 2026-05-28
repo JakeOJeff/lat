@@ -49,10 +49,10 @@ class Tokenizer
 
     # operators
     [:dequal, /==/],
-    [:greater, />/],
-    [:lesser, /</],
     [:grequal, />=/],
     [:lequal, /<=/],
+    [:greater, />/],
+    [:lesser, /</],
     [:equal, /=/],
     [:divide, /\//],
     [:multiply, /\*/],
