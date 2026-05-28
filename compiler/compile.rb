@@ -19,8 +19,10 @@ def detect_os
     :linux
 end
 
+OS = detect_os
+
 def love_installed?
-    if detect_os == :windows
+    if OS == :windows
         common_paths = [
             "C:/Program Files/LOVE/love.exe",
             "C:/Program Files (x86)/LOVE/love.exe",
@@ -33,7 +35,6 @@ def love_installed?
 end
 
 def install_love
-    os = detect_os
     puts "[lat] Love2D not found, attempting to install"
     print "Do you want to install Love2d? (y/n)"
     answer = $stdin.gets.chomp.downcase
@@ -41,7 +42,7 @@ def install_love
     if %w[y yes].include?(answer.downcase)
         puts "installing love..."
 
-        case os
+        case OS
         when :arch
             system("sudo pacman -S --noconfirm love")
         when :debian
@@ -74,7 +75,7 @@ end
 def find_love
     install_love unless love_installed?
 
-    if detect_os == :windows
+    if OS == :windows
         candidates = [ENV["LOVE_PATH"], "C:/Program Files/LOVE/love.exe", "C:/Program Files (x86)/LOVE/love.exe"].compact
         candidates.each { |p| return p if File.exist?(p) }
     else
@@ -82,12 +83,11 @@ def find_love
             return cmd if system("which #{cmd} > /dev/null 2>&1")
         end
     end
-    
+
     puts "Error: LOVE2D not found. Install it from https://love2d.org or set LOVE_PATH env variable."
     exit 1
 end
 skip_run = false
-love = find_love()
 
 if ARGV[0] == "run"
     latcDir = File.join(Dir.pwd, ".latc")
@@ -100,6 +100,7 @@ if ARGV[0] == "run"
         puts "Error: .latc exists but no main.lua found"
         exit 1
     end
+    love = find_love()
     exec(love, latcDir)
 elsif ARGV[0] == "build"
     ARGV.shift
