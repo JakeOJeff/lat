@@ -36,7 +36,7 @@ end
 
 def install_love
     puts "[lat] Love2D not found, attempting to install"
-    print "Do you want to install Love2d? (y/n)"
+    print "Do you want to install LOVE2D? (y/n)"
     answer = $stdin.gets.chomp.downcase
 
     if %w[y yes].include?(answer.downcase)
@@ -53,11 +53,11 @@ def install_love
             if system("which brew > /dev/null 2>&1")
                 system("brew install love")
             else
-                puts "[lat] Homebrew not found. Install Love2D from https://love2d.org"
+                puts "[lat] Homebrew not found. Install LOVE2D from https://love2d.org"
                 exit 1
             end
         when :windows
-            puts "[lat] Please install Love2D from https://love2d.org"
+            puts "[lat] Please install LOVE2D from https://love2d.org"
             puts "[lat] Set LOVE_PATH to the love.exe location:"
             puts '[lat]   setx LOVE_PATH "C:\\Program Files\\LOVE\\love.exe"'
         else
@@ -109,7 +109,7 @@ end
 inputFile  = ARGV[0] || "main.lat"
 
 unless File.exist?(inputFile)
-    puts "Error: fil `#{inputFile}` not found"
+    puts "Error: file `#{inputFile}` not found"
     exit 1
 end
 
