@@ -10,5 +10,5 @@ done
 
 call love.draw()
     -G:setColor(color)
-    -G:circle("fill", 20, 30, 100)
+    -G:print("hello")
 done

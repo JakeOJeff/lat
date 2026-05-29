@@ -7,9 +7,8 @@ class Generator
     case node
     
     when ImportNode
-      "require %s" % [
-        node.location
-      ]
+        "require(\"#{node.location}\")"
+        
     when ClassNode
       out = []
       out << "local #{node.name} = {}"

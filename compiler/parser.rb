@@ -306,24 +306,6 @@ class Parser
 
     left
   end
-    # consume(:if)
-
-    # if peek(:oparen)
-    #   consume(:oparen)
-    #   statement = parse_expr
-    #   consume(:cparen)
-    # else
-    #   statement = parse_expr
-    # end
-    # skip_newlines
-    # body = []
-
-    # until peek(:elif) peek(:end)
-    #   body << parse_statement
-    #   skip_newlines
-    # end
-    # consume(:end)
-    # IfNode.new(statement, body)
 
   def parse_args
     consume(:oparen)
@@ -391,6 +373,9 @@ class Parser
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
 
+    elsif peek(:identifier) && peek(:lbrace, 1)
+      parse_array_access
+
     elsif peek(:identifier)
       VarRefNode.new(consume(:identifier).value)
 
@@ -448,7 +433,8 @@ class Parser
     prefix = @tokens.shift.type
     namespace = LOVE_NAMESPACES[prefix]
 
-    name = consume(:identifier).value
+    name = @tokens.shift.value
+    
     args = parse_arg_expr
 
     LoveCallNode.new(namespace, name, args)
