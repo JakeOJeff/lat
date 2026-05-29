@@ -138,6 +138,7 @@ generated = Generator.new.generate(tree)
 # puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
 
+love = find_love()
 exec(love, latcDir) unless skip_run
 
 # ln -s "$(pwd)/compiler/compile.rb" /usr/local/bin/lat
