@@ -407,13 +407,17 @@ class Parser
 
       first = parse_expr
       items = [first]
-      until peek(:identifier) && peek(:or) && peek(:dequal) && peek(:cparen) && peek(:plus)
+      until peek(:identifier) || peek(:dequal)
         break
       end
 
-      if !peek(:identifier) && peek(:or)
+      if !peek(:identifier) && peek(:or) || peek(:and)
         while peek(:or)
           consume(:or)
+          items << parse_expr
+        end
+        while peek(:and)
+          consume(:and)
           items << parse_expr
         end
         consume(:cparen)

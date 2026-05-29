@@ -3,6 +3,20 @@ Token = Struct.new(:type, :value)
 class Tokenizer
 
   TOKEN_TYPES = [
+
+      #love 
+    [:lgraphics, /-G:/],
+    [:laudio, /-A:/],
+    [:ldata, /-D:/],
+    [:levent, /-E:/],
+    [:lfilesystem, /-FS:/],
+    [:lfont, /-F:/],
+    [:limage, /-I:/],
+    [:ljoystick, /-J:/],
+    [:lmouse, /-M:/],
+    [:lkeyboard, /-K:/],
+    [:love, /\blove\b/],
+    
     [:local, /\bnat\b/],
     [:def, /\bcall\b/],
     [:end, /\bdone\b/],
@@ -20,18 +34,7 @@ class Tokenizer
     [:self, /\bself\b/],
     [:import, /\bbring\b/],
 
-    #love 
-    [:lgraphics, /-G:/],
-    [:laudio, /-A:/],
-    [:ldata, /-D:/],
-    [:levent, /-E:/],
-    [:lfilesystem, /-FS:/],
-    [:lfont, /-F:/],
-    [:limage, /-I:/],
-    [:ljoystick, /-J:/],
-    [:lmouse, /-M:/],
-    [:lkeyboard, /-K:/],
-    [:love, /\blove\b/],
+
 
     # thingies
     [:identifier, /\b[a-zA-Z]+\b/],
