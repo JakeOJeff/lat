@@ -6,17 +6,18 @@ call love.load()
     thing_item = {
         "wow", 2, "glim glim"
     }
+    print("hello")
 done
 
 call love.update(dt)
     if -K:isDown("e")
         color = {1,1,1}
-
     done
 done
 
 
 call love.draw()
     -G:setColor(color)
-    -G:print("hello")
+    for 
+    -G:print(thing_item[1])
 done

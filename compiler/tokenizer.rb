@@ -24,6 +24,7 @@ class Tokenizer
     [:elif, /\belif\b/],
     [:else, /\belse\b/],
     [:while, /\bwhen\b/],
+    [:for, /\bfor\b/]
     [:print, /\bprint\b/],
     [:return, /\breturn\b/],
     [:or, /\bor\b/],
