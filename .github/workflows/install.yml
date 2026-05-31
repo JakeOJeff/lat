@@ -15,13 +15,13 @@ jobs:
                 ruby-version: "3.3"
             
             - name: Run Install Script
-              shell: pwsh
-              run: .\install\install.ps1
+              shell: cmd
+              run: .\install\install.bat
 
             - name: Compile a test file
-              shell: pwsh
+              shell: cmd
               run: cd test/fixtures/ | lat build
 
             - name: Check Output exists
-              shell: pwsh
+              shell: cmd
               run: cd test/fixtures/ | if (-not (Test-Path .latc/main.lua)) { exit 1 }
