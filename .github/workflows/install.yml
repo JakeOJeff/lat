@@ -18,10 +18,14 @@ jobs:
               shell: cmd
               run: .\install\install.bat
 
+            - name: Make lat visible to later steps
+              shell: bash
+              run: echo "$USERPROFILE\\bin" >> "$GITHUB_PATH"
+            
             - name: Compile a test file
               shell: cmd
-              run: cd test/fixtures/ | lat build
+              run: lat build test/fixtures/main.lat
 
             - name: Check Output exists
               shell: cmd
-              run: cd test/fixtures/ | if (-not (Test-Path .latc/main.lua)) { exit 1 }
+              run: if (-not (Test-Path .latc/main.lua)) { exit 1 }
