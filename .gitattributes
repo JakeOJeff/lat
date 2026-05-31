@@ -1,0 +1,3 @@
+*.lat linguist-language=Lua
+.latc/* linguist-generated=true
+test/fixtures/*.lat linguist-documentation=false
