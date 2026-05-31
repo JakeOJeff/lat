@@ -7,6 +7,7 @@ ElifBlock = Struct.new(:condition, :body)
 
 ImportNode = Struct.new(:location)
 WhileNode = Struct.new(:statement, :body)
+ForNode = Struct.new(:init, :cond, :increment, :body)
 IntegerNode = Struct.new(:value)
 FloatNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -259,6 +260,16 @@ class Parser
       increment << parse_expr
     end
     skip_newlines
+
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
+
+    consume(:end)
+    ForNode.new(init, cond, increment, body)
     
   end
 
