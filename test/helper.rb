@@ -5,3 +5,12 @@ require "tokenizer"
 require "parser"
 require "codegen"
 
+def compile(source)
+    tokens = Tokenizer.new(source).tokenize 
+    tree = Parser.new(tokens).parse 
+    Generator.new.generate(tree)
+end
+
+def strip(str)
+    str.strip.gsub(/\s+/, " ")
+end
