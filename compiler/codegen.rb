@@ -96,11 +96,12 @@ class Generator
       else
         generate(node.body)
       end
-
-      "for %s, %s, %s do \n %s \nend" % [
-        generate(node.init),
-        generate(node.cond),
-        generate(node.increment),
+      increment = ", #{node.step.nil? ? "" : generate(node.step)}"
+      "for %s = %s, %s%s do \n %s \nend"  % [
+        node.var,
+        generate(node.start),
+        generate(node.stop),
+        increment,
         body_code
       ]
 
