@@ -23,8 +23,12 @@ class Tokenizer
     [:if, /\bif\b/],
     [:elif, /\belif\b/],
     [:else, /\belse\b/],
+
     [:while, /\bwhen\b/],
     [:for, /\bfor\b/],
+    [:forpairs, /\beach\b/],
+    [:foripairs, /\bseq\b/],
+
     [:print, /\bprint\b/],
     [:return, /\breturn\b/],
     [:or, /\bor\b/],
