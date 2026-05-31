@@ -168,6 +168,9 @@ class Generator
     when IntegerNode
       node.value.to_s
 
+    when FloatNode
+      node.value.to_s
+
     when StringNode
       "\"%s\"" % [
         node.value

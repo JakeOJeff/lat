@@ -8,6 +8,7 @@ ElifBlock = Struct.new(:condition, :body)
 ImportNode = Struct.new(:location)
 WhileNode = Struct.new(:statement, :body)
 IntegerNode = Struct.new(:value)
+FloatNode = Struct.new(:value)
 StringNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
@@ -369,6 +370,9 @@ class Parser
   def parse_term
     if peek(:integer)
       IntegerNode.new(consume(:integer).value.to_i)
+
+    elsif peek(:float)  
+      FloatNode.new(consume(:float).value.to_f)
 
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
