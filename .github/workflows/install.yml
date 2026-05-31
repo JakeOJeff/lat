@@ -1,0 +1,27 @@
+name: Install Test
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    test-windows:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: ruby/setup-ruby@v1
+              with:
+                ruby-version: "3.3"
+            
+            - name: Run Install Script
+              shell: pwsh
+              run: .\install\install.ps1
+
+            - name: Compile a test file
+              shell: pwsh
+              run: cd test/fixtures/ | lat build
+
+            - name: Check Output exists
+              shell: pwsh
+              run: cd test/fixtures/ | if (-not (Test-Path .latc/main.lua)) { exit 1 }
