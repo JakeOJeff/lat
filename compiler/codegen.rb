@@ -98,7 +98,7 @@ class Generator
       end
       increment = ", #{node.step.nil? ? "" : generate(node.step)}"
       "for %s = %s, %s%s do \n %s \nend"  % [
-        node.var,
+        generate(node.var),
         generate(node.start),
         generate(node.stop),
         increment,

@@ -248,16 +248,16 @@ class Parser
 
   def parse_for
     consume(:for)
-    var = consume(:identifier).value
+    var = parse_expr
+    consume(:equal)
+    start = parse_expr
     consume(:comma)
-    start = consume(:identifier).value
-    consume(:comma)
-    stop = consume(:identifier).value
+    stop = parse_expr
 
     step = nil
     if peek(:comma) 
       consume(:comma)
-      step = consume(:identifier).value
+      step = parse_expr
     end
 
     skip_newlines
