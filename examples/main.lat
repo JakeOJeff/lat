@@ -1,6 +1,6 @@
 
 
-color = {0,0,0}
+color = {0.5,0.5,0.5}
 call love.update(dt)
     if -K:isDown("e")
         color = {1,1,1}
