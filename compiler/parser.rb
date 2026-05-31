@@ -248,9 +248,20 @@ class Parser
   end
 
   def parse_forpairs
-    # consume(:forpairs)
-    # key = consume(:identifier).value
-    # consume(:comma)
+    consume(:forpairs)
+    key = consume(:identifier).value
+    consume(:comma)
+    val = consume(:identifier).value
+    
+    consume(:in)
+    t = parse_expr
+
+    body = parse_block
+
+    consume(:end)
+
+    ForPairNode.new(key, val, t, body)
+
 
   end
   
