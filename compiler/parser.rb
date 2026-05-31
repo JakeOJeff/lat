@@ -345,29 +345,10 @@ class Parser
     end
     left
   end
-  # def parse_operators
-  #   left = parse_term
 
-  #   left = parse_op(left, :divide)
-  #   left = parse_op(left, :multiply)
-  #   left = parse_op(left, :plus)
-  #   left = parse_op(left, :minus)
-
-  #   left
-  # end
-
-  # def parse_op(left, operator)
-
-  #   while peek(operator)
-  #     consume(operator)
-  #     right = parse_term
-  #     left = BinOpNode.new(left, operator, right)
-  #   end
-  #   left
-  
-  # end
 
   def parse_term
+    skip_newlines
     if peek(:integer)
       IntegerNode.new(consume(:integer).value.to_i)
 
@@ -377,15 +358,18 @@ class Parser
     elsif peek(:identifier) && peek(:oparen, 1)
       parse_call
 
-    elsif peek(:identifier) && peek(:lbrace, 1)
+    elsif peek(:identifier) && peek(:lbracket, 1)
       parse_array_access
+
+    elsif peek(:lbrace)
+      parse_array
 
     elsif peek(:identifier)
       VarRefNode.new(consume(:identifier).value)
 
     elsif peek(:string)
       strVal = consume(:string).value
-      StringNode.new(strVal[1..-2])
+      StringNode.new(strVal[1..-2]) 
 
     elsif peek(:oparen)
       # consume(:oparen)
@@ -419,8 +403,7 @@ class Parser
     elsif peek(:self)
       parse_self_node
 
-    elsif peek(:lbrace)
-      parse_array
+
 
 
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
@@ -494,14 +477,19 @@ class Parser
 
   def parse_array
     consume(:lbrace)
+    skip_newlines
     elements = []
     unless peek(:rbrace)
       elements << parse_expr
+      skip_newlines
       while peek(:comma)
         consume(:comma)
+        skip_newlines
         elements << parse_expr
+        skip_newlines
       end
     end
+    skip_newlines
     consume(:rbrace)
     ArrayNode.new(elements)
   end
