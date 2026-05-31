@@ -6,11 +6,16 @@ IfNode = Struct.new(:condition, :body, :elif_blocks, :else_body)
 ElifBlock = Struct.new(:condition, :body)
 
 ImportNode = Struct.new(:location)
+
 WhileNode = Struct.new(:statement, :body)
 ForNode = Struct.new(:var, :start, :stop, :step, :body)
+ForPairNode = Struct.new(:key, :val, :t, :body)
+ForIPairNode = Struct.new(:index, :val, :t, :body)
+
 IntegerNode = Struct.new(:value)
 FloatNode = Struct.new(:value)
 StringNode = Struct.new(:value)
+
 CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
 VarAssignNode = Struct.new(:name, :value)
@@ -252,19 +257,28 @@ class Parser
     key = consume(:identifier).value
     consume(:comma)
     val = consume(:identifier).value
-    
     consume(:in)
     t = parse_expr
-
     body = parse_block
-
     consume(:end)
 
     ForPairNode.new(key, val, t, body)
-
-
   end
   
+  
+  def parse_foripairs
+    consume(:foripairs)
+    index = consume(:identifier).value
+    consume(:comma)
+    val = consume(:identifier).value
+    consume(:in)
+    t = parse_expr
+    body = parse_block
+    consume(:end)
+
+    ForIPairNode.new(index, val, t, body)
+  end
+
   def parse_switch
     consume(:switch)
     value = parse_expr
