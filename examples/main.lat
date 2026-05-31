@@ -18,7 +18,7 @@ done
 
 call love.draw()
     -G:setColor(color)
-    for i = 1, 20, 2
+    each k, v as t 
         print("hello")
     done
     -G:print(thing_item[1])

@@ -100,6 +100,8 @@ class Parser
       parse_for
     elsif peek(:forpairs)
       parse_forpairs
+    elsif peek(:foripairs)
+      parse_foripairs
     elsif peek(:switch)
       parse_switch
     elsif peek(:print)

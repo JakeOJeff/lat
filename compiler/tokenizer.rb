@@ -33,6 +33,7 @@ class Tokenizer
     [:return, /\breturn\b/],
     [:or, /\bor\b/],
     [:and, /\band\b/],
+    [:in, /\bas\b/],
     [:switch, /\bswitch\b/],
     [:to, /\bto\b/],
     [:class, /\bclass\b/],

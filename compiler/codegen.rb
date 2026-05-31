@@ -97,11 +97,39 @@ class Generator
         generate(node.body)
       end
       increment = ", #{node.step.nil? ? "" : generate(node.step)}"
-      "for %s = %s, %s%s do \n %s \nend"  % [
+      "for %s = %s, %s%s do\n %s \nend"  % [
         generate(node.var),
         generate(node.start),
         generate(node.stop),
         increment,
+        body_code
+      ]
+
+    when ForPairNode
+      body_code = 
+      if node.body.is_a?(Array)
+        node.body.map{ |n| generate (n) }.join("\n")
+      else
+        generate(node.body)
+      end
+      "for %s, %s in pairs(%s) do\n %s \nend" % [
+        generate(node.key),
+        generate(node.val),
+        generate(node.t),
+        body_code
+      ]
+
+    when ForPairNode
+      body_code = 
+      if node.body.is_a?(Array)
+        node.body.map{ |n| generate (n) }.join("\n")
+      else
+        generate(node.body)
+      end
+      "for %s, %s in ipairs(%s) do\n %s \nend" % [
+        generate(node.index),
+        generate(node.val),
+        generate(node.t),
         body_code
       ]
 
