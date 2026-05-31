@@ -18,6 +18,8 @@ done
 
 call love.draw()
     -G:setColor(color)
-    for 
+    for i = 1, 20, 2
+        print("hello")
+    done
     -G:print(thing_item[1])
 done

@@ -89,6 +89,21 @@ class Generator
         body_code
       ]
 
+    when ForNode
+      body_code = 
+      if node.body.is_a?(Array)
+        node.body.map{ |n| generate (n) }.join("\n")
+      else
+        generate(node.body)
+      end
+
+      "for %s, %s, %s do \n %s \nend" % [
+        generate(node.init),
+        generate(node.cond),
+        generate(node.increment),
+        body_code
+      ]
+
     when SwitchNode
       compiled = ""
       node.cases.each_with_index do |c, i|

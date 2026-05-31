@@ -7,7 +7,7 @@ ElifBlock = Struct.new(:condition, :body)
 
 ImportNode = Struct.new(:location)
 WhileNode = Struct.new(:statement, :body)
-ForNode = Struct.new(:init, :cond, :increment, :body)
+ForNode = Struct.new(:var, :start, :stop, :step, :body)
 IntegerNode = Struct.new(:value)
 FloatNode = Struct.new(:value)
 StringNode = Struct.new(:value)
@@ -248,19 +248,19 @@ class Parser
 
   def parse_for
     consume(:for)
-    until peek(:comma)
-      init << parse_expr
-    end
+    var = consume(:identifier).value
     consume(:comma)
-    until peek(:comma)
-      cond << parse_expr 
-    end
+    start = consume(:identifier).value
     consume(:comma)
-    until peek(:newline)
-      increment << parse_expr
-    end
-    skip_newlines
+    stop = consume(:identifier).value
 
+    step = nil
+    if peek(:comma) 
+      consume(:comma)
+      step = consume(:identifier).value
+    end
+
+    skip_newlines
     body = []
 
     until peek(:end)
@@ -269,8 +269,8 @@ class Parser
     end
 
     consume(:end)
-    ForNode.new(init, cond, increment, body)
-    
+    ForNode.new(var, start, stop, step, body)
+
   end
 
   def parse_switch
