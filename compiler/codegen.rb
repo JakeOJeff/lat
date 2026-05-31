@@ -113,8 +113,8 @@ class Generator
         generate(node.body)
       end
       "for %s, %s in pairs(%s) do\n %s \nend" % [
-        generate(node.key),
-        generate(node.val),
+        node.key,
+        node.val,
         generate(node.t),
         body_code
       ]
