@@ -90,6 +90,8 @@ class Parser
       parse_if
     elsif peek(:while)
       parse_while
+    elsif peek(:for)
+      parse_for
     elsif peek(:switch)
       parse_switch
     elsif peek(:print)
@@ -241,6 +243,23 @@ class Parser
 
     consume(:end)
     WhileNode.new(statement, body)
+  end
+
+  def parse_for
+    consume(:for)
+    until peek(:comma)
+      init << parse_expr
+    end
+    consume(:comma)
+    until peek(:comma)
+      cond << parse_expr 
+    end
+    consume(:comma)
+    until peek(:newline)
+      increment << parse_expr
+    end
+    skip_newlines
+    
   end
 
   def parse_switch
