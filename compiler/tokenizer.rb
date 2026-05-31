@@ -37,7 +37,7 @@ class Tokenizer
 
 
     # thingies
-    [:identifier, /\b[a-zA-Z]+\b/],
+    [:identifier, /\b[a-zA-Z_][a-zA-Z0-9_]*\b/],
     [:string, /"([^"]*)"/],
     [:float, /(?:\d+\.\d*|\.\d+)/],
     [:integer, /\b\d+\b/],
