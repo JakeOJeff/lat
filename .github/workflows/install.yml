@@ -27,5 +27,5 @@ jobs:
               run: lat build test/fixtures/main.lat
 
             - name: Check Output exists
-              shell: cmd
+              shell: pwsh
               run: if (-not (Test-Path .latc/main.lua)) { exit 1 }
