@@ -148,14 +148,8 @@ class Parser
     consume(:def)
     name = "#{name}:#{consume(:identifier).value}"
     args = parse_args
-    skip_newlines
+    body = parse_block
 
-    body = []
-
-    until peek(:end)
-      body << parse_statement
-      skip_newlines
-    end
     consume(:end)
     ClassDefNode.new(name, args, body)
   end
@@ -171,13 +165,7 @@ class Parser
     name = consume(:identifier).value
     args = parse_args
 
-    skip_newlines
-    body = []
-
-    until peek(:end)
-      body << parse_statement
-      skip_newlines
-    end
+    body = parse_block
     consume(:end)
     DefNode.new(type, name, args, body)
   end
@@ -213,11 +201,8 @@ class Parser
       consume(:else)
       skip_newlines
 
-      else_body = []
-      while !peek(:end)
-        else_body << parse_statement
-        skip_newlines
-      end
+      else_body = parse_block
+
     end
 
     consume(:end)
@@ -236,13 +221,7 @@ class Parser
       statement = parse_expr
     end
 
-    skip_newlines
-    body = []
-
-    until peek(:end)
-      body << parse_statement
-      skip_newlines
-    end
+    body = parse_block
 
     consume(:end)
     WhileNode.new(statement, body)
@@ -261,14 +240,7 @@ class Parser
       consume(:comma)
       step = parse_expr
     end
-
-    skip_newlines
-    body = []
-
-    until peek(:end)
-      body << parse_statement
-      skip_newlines
-    end
+    body = parse_block
 
     consume(:end)
     ForNode.new(var, start, stop, step, body)
@@ -276,9 +248,9 @@ class Parser
   end
 
   def parse_forpairs
-    consume(:forpairs)
-    key = consume(:identifier).value
-    consume(:comma)
+    # consume(:forpairs)
+    # key = consume(:identifier).value
+    # consume(:comma)
 
   end
   
