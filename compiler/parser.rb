@@ -93,6 +93,8 @@ class Parser
       parse_while
     elsif peek(:for)
       parse_for
+    elsif peek(:forpairs)
+      parse_forpairs
     elsif peek(:switch)
       parse_switch
     elsif peek(:print)
@@ -273,6 +275,13 @@ class Parser
 
   end
 
+  def parse_forpairs
+    consume(:forpairs)
+    key = consume(:identifier).value
+    consume(:comma)
+
+  end
+  
   def parse_switch
     consume(:switch)
     value = parse_expr
@@ -350,6 +359,17 @@ class Parser
     end
     consume(:cparen)
     args
+  end
+
+  def parse_block
+    skip_newlines
+    body = []
+
+    until peek(:end)
+      body << parse_statement
+      skip_newlines
+    end
+    body
   end
 
 
