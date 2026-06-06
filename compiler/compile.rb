@@ -124,6 +124,7 @@ basename = File.basename(inputFile, ".*")
 outputFile = File.join(latcDir, basename == "main" ? "main.lua" : "#{basename}.lua")
 
 input = File.read(inputFile)
+confInput = File.read("conf") if File.exists?("conf")
 
 tokens = Tokenizer.new(input).tokenize
 # puts "--- TOKENS ---"
