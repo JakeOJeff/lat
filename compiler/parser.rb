@@ -19,7 +19,7 @@ StringNode = Struct.new(:value)
 CallNode    = Struct.new(:name, :arg_expr)
 VarRefNode  = Struct.new(:value)
 VarAssignNode = Struct.new(:name, :value)
-VarSetNode = Struct.new(:name, :value)
+VarSetNode = Struct.new(:children, :value)
 BinOpNode = Struct.new(:left, :op, :right)
 PrintNode = Struct.new(:args)
 ReturnNode = Struct.new(:statement)
@@ -322,10 +322,18 @@ class Parser
   end
 
   def parse_var_set
-    name = consume(:identifier).value
+    children = []
+    unless peek(:equal)
+      children << parse)expr
+      while(peek(:dot))
+        consume(:dot)
+      end
+    end
+
+      
     consume(:equal)
     value = parse_expr
-    VarSetNode.new(name, value)
+    VarSetNode.new(children, value)
   end
 
   def parse_return
