@@ -4,9 +4,12 @@ color = {0.5,0.5,0.5}
 
 call love.load()
     thing_item = {
-        "wow", 2, "glim glim"
+        "wow", 2, "glim glim", place
     }
     print("hello")
+
+    thing_item.place = 4
+    
 done
 
 call love.update(dt)

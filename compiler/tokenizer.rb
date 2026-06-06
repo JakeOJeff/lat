@@ -75,6 +75,7 @@ class Tokenizer
 
   def initialize(code)
     @code = code
+    puts "Tokenizer initialized with: #{code.inspect}"
   end
 
   def tokenize

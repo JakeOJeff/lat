@@ -1,0 +1,4 @@
+call love.conf(t)
+    t.console = true
+
+done

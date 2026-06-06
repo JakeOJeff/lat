@@ -120,24 +120,31 @@ if RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
   system("attrib +h #{latcDir}") # -h to unhide
 end
 
+inputDir = File.dirname(inputFile)
 basename = File.basename(inputFile, ".*")
 outputFile = File.join(latcDir, basename == "main" ? "main.lua" : "#{basename}.lua")
+confPath = File.join(inputDir, "conf.lat")
+confInput = File.read(confPath) if File.exist?(confPath)
 
 input = File.read(inputFile)
-confInput = File.read("conf") if File.exists?("conf")
+confInput = File.read(confPath) if File.exist?(confPath)
 
 tokens = Tokenizer.new(input).tokenize
+confTokens = Tokenizer.new(confInput).tokenize if confInput
 # puts "--- TOKENS ---"
 # puts tokens.map(&:inspect).join("\n")
 
 tree = Parser.new(tokens).parse
+confTree = Parser.new(confTokens).parse if confTokens
 # puts "--- AST ---"
 # p tree
 
 generated = Generator.new.generate(tree)
+confGenerated = Generator.new.generate(confTree) if confTree
 # puts "--- LUA OUTPUT ---"
 # puts generated
 File.open(outputFile, 'w') { |file| file.write(generated)}
+File.open(confOutputFile, 'w') { |file| file.write(confGenerated)} if confGenerated
 
 
 exec(find_love(), latcDir) unless skip_run
