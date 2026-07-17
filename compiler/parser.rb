@@ -108,7 +108,7 @@ class Parser
       parse_print
     elsif peek(:local)
       parse_var_assign
-    elsif peek(:identifier) && peek(:equal, 1)
+    elsif seems_var_set?
       parse_var_set
     elsif peek(:return)
       parse_return
@@ -116,11 +116,20 @@ class Parser
       parse_expr
     end
 
-
   end
 
   def skip_newlines
     consume(:newline) while peek(:newline)
+  end
+
+  def seems_var_set?
+    return false unless peek(:identifier)
+    offset = 1
+
+    while peek(:dot, offset) && peek(:identifier, offset + 1)
+      offset += 2
+    end
+    peek(:equal, offset)
   end
 
   def parse_import
@@ -324,7 +333,7 @@ class Parser
   def parse_var_set
     children = []
     unless peek(:equal)
-      children << parse)expr
+      children << parse_expr
       while(peek(:dot))
         consume(:dot)
       end
