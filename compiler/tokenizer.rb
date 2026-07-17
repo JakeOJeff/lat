@@ -1,4 +1,4 @@
-Token = Struct.new(:type, :value)
+Token = Struct.new(:type, :value, :line)
 
 class Tokenizer
 
@@ -75,6 +75,7 @@ class Tokenizer
 
   def initialize(code)
     @code = code
+    @line = 1
     puts "Tokenizer initialized with: #{code.inspect}"
   end
 
@@ -90,16 +91,19 @@ class Tokenizer
   def tokenize_token
     TOKEN_TYPES.each do |type, regex|
       anchored = /\A(#{regex})/
-
-
+      
       if @code =~ anchored
         value = $1
         if type == :space
           @code = @code[value.length..-1]
           return tokenize_token
         end
+
+        token = Token.new(type, value, @line)
         @code = @code[value.length..-1]
-        return Token.new(type, value)
+        @line += value.count("\n") if type == :newline
+        # return Token.new(type, value)
+        return token
       end
     end
 
