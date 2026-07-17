@@ -141,6 +141,9 @@ confTree = Parser.new(confTokens).parse if confTokens
 # puts "--- AST ---"
 # p tree
 
+
+
+
 generated = Generator.new.generate(tree)
 confGenerated = Generator.new.generate(confTree) if confTree
 # puts "--- LUA OUTPUT ---"
@@ -148,6 +151,38 @@ confGenerated = Generator.new.generate(confTree) if confTree
 File.open(outputFile, 'w') { |file| file.write(generated)}
 File.open(confOutputFile, 'w') { |file| file.write(confGenerated)} if confGenerated
 
+def build_source_map(lua_source)
+    map = {}
+    clean_lines = lua_source.split("\n", -1).each_with_index.map do |line, idx|
+        if line = /\A--\[\[@(\d+)\]\](.*)\z/m
+            map[idx + 1] = $1.to_i 
+            $2
+        else
+            line
+        end
+    end
+    [clean_lines.join("\n"), map]
+end
+
+generated, source_map = build_source_map(generated)
+confGenerated, conf_source_map = build_source_map(confGenerated)
+
+shim = <<~LUA
+    local _LAT_SOURCE_MAP = { #{source_map.map { |k, v| "[#{k}=#{v}]" }.join(",")}}
+    local _LAT_FILE = "#{basename}.lat"
+
+    local function _lat_remap(text)
+        return (text:gsub("#{basename}%.lua:(%%d+)", function(n)
+            local mapped = _LAT_SOURCE_MAP_T[tonumber(n)]
+            return mapped and (_LAT_FILE .. ":" .. mapped) or ("#{basename}.lua:" .. n)
+            
+        end))
+    end
+
+    function love.errorhandler(msg)
+        return (_G.__lat_default_errorhandler or love.errorhandler)(_lat_remap(tostring(msg)))
+    end
+LUA
 
 exec(find_love(), latcDir) unless skip_run
 
