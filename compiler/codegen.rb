@@ -169,7 +169,7 @@ class Generator
 
     when VarSetNode
       "%s = %s" % [
-        node.name,
+        node.children.join("."),
         generate(node.value)
       ]
 

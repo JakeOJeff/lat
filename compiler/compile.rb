@@ -123,6 +123,8 @@ end
 inputDir = File.dirname(inputFile)
 basename = File.basename(inputFile, ".*")
 outputFile = File.join(latcDir, basename == "main" ? "main.lua" : "#{basename}.lua")
+confOutputFile = File.join(latcDir, "conf.lua")
+
 confPath = File.join(inputDir, "conf.lat")
 confInput = File.read(confPath) if File.exist?(confPath)
 
