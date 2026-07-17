@@ -10,6 +10,10 @@ class Generator
     args.map { |expr| generate(expr) }.join(",")
   end
 
+  def generate_param_names(names)
+    names.join(",")
+  end
+
   def generate(node)
     if node.is_a?(Array)
       return node.map { |n| generate_statement(n) }.join("\n")
@@ -51,14 +55,14 @@ class Generator
       out.join("\n")
     when ClassDefNode
       body_code = generate(node.body)
-     "function %s(%s)\n  %s\nend" % [node.name, generate_arguments(node.args), body_code]
+     "function %s(%s)\n  %s\nend" % [node.name, generate_param_names(node.args), body_code]
 
     when DefNode
       body_code = generate(node.body)
 
       "function #{node.type == "love"? "love." : ""}%s(%s)\n  %s \nend" % [
         node.name,
-        generate_arguments(node.args),
+        generate_param_names(node.args),
         body_code
       ]
 
