@@ -35,7 +35,6 @@ SelfNode = Struct.new(:name, :type, :args, :value)
 
 ErrorCallNode = Struct.new()
 
-
 LOVE_NAMESPACES = {
   lgraphics: "graphics",
   laudio: "audio",
@@ -186,7 +185,6 @@ class Parser
     DefNode.new(type, name, args, body)
   end
 
-
   def parse_if
     consume(:if)
     condition = parse_expr
@@ -276,7 +274,6 @@ class Parser
     ForPairNode.new(key, val, t, body)
   end
   
-  
   def parse_foripairs
     consume(:foripairs)
     index = consume(:identifier).value
@@ -331,15 +328,11 @@ class Parser
   end
 
   def parse_var_set
-    children = []
-    unless peek(:equal)
-      children << parse_expr
-      while(peek(:dot))
-        consume(:dot)
-      end
+    children = [consume(:identifier).value] # First get the identifier
+    while peek(:dot) # Check if there is a dot or a child for it
+      consume(:dot)
+      children << consume(:identifier).value
     end
-
-      
     consume(:equal)
     value = parse_expr
     VarSetNode.new(children, value)
@@ -388,8 +381,6 @@ class Parser
     body
   end
 
-
-
   def parse_additive
     left = parse_multiplicative
 
@@ -411,7 +402,6 @@ class Parser
     end
     left
   end
-
 
   def parse_term
     skip_newlines
