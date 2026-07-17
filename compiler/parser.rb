@@ -85,35 +85,41 @@ class Parser
     skip_newlines
     return nil if peek(:end)
 
-    if peek(:import) then
-      parse_import
-    elsif peek(:class) then
-      parse_class
-    elsif peek(:def)
-      parse_def
-    elsif peek(:if)
-      parse_if
-    elsif peek(:while)
-      parse_while
-    elsif peek(:for)
-      parse_for
-    elsif peek(:forpairs)
-      parse_forpairs
-    elsif peek(:foripairs)
-      parse_foripairs
-    elsif peek(:switch)
-      parse_switch
-    elsif peek(:print)
-      parse_print
-    elsif peek(:local)
-      parse_var_assign
-    elsif seems_var_set?
-      parse_var_set
-    elsif peek(:return)
-      parse_return
-    else
-      parse_expr
-    end
+    line = @tokens[0]&.line
+
+    node = 
+      if peek(:import) then
+        parse_import
+      elsif peek(:class) then
+        parse_class
+      elsif peek(:def)
+        parse_def
+      elsif peek(:if)
+        parse_if
+      elsif peek(:while)
+        parse_while
+      elsif peek(:for)
+        parse_for
+      elsif peek(:forpairs)
+        parse_forpairs
+      elsif peek(:foripairs)
+        parse_foripairs
+      elsif peek(:switch)
+        parse_switch
+      elsif peek(:print)
+        parse_print
+      elsif peek(:local)
+        parse_var_assign
+      elsif seems_var_set?
+        parse_var_set
+      elsif peek(:return)
+        parse_return
+      else
+        parse_expr
+      end
+
+    node.instance_variable_set(:@lat_line, line) if node.respond_to?(:instance_variable_set) && line
+    node
 
   end
 

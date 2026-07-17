@@ -1,7 +1,18 @@
 class Generator
+
+  def generate_statement(node)
+    code = generate(node)
+    line = node.instance_variable_get(:@lat_line) if node.respond_to?(:instance_variable_get)
+    line ? "--[[@#{line}]]#{code}" : code
+  end
+
+  def generate_arguments(args)
+    args.map { |expr| generate(expr) }.join(",")
+  end
+
   def generate(node)
     if node.is_a?(Array)
-      return node.map { |n| generate(n) }.join("\n")
+      return node.map { |n| generate_statement(n) }.join("\n")
     end 
 
     case node
@@ -39,20 +50,15 @@ class Generator
      
       out.join("\n")
     when ClassDefNode
-      body_code = node.body.map { |n| generate(n) }.join("\n  ")
-     "function %s(%s)\n  %s\nend" % [node.name, node.args.join(","), body_code]
+      body_code = generate(node.body)
+     "function %s(%s)\n  %s\nend" % [node.name, generate_arguments(node.args), body_code]
 
     when DefNode
-      body_code = 
-        if node.body.is_a?(Array)
-          node.body.map { |n| generate (n) }.join("\n  ")
-        else
-          generate(node.body)
-        end
+      body_code = generate(node.body)
 
       "function #{node.type == "love"? "love." : ""}%s(%s)\n  %s \nend" % [
         node.name,
-        node.args.join(","),
+        generate_arguments(node.args),
         body_code
       ]
 
@@ -61,28 +67,23 @@ class Generator
 
       first = node.condition
       compiled << "if #{generate(first)} then\n  "
-      compiled << node.body.map { |n| generate (n) }.join("\n")
+      compiled << generate(node.body)
 
       node.elif_blocks.each do |c|
         compiled << "\nelseif #{generate(c.condition)} then\n  "
-        compiled << c.body.map { |n| generate (n) }.join("\n")
+        compiled << generate(c.body)
       end
 
       if node.else_body
         compiled << "\nelse\n  "
-        compiled << node.else_body.map { |n| generate (n) }.join("\n")
+        compiled << generate(node.else_body)
       end
 
       compiled << "\nend\n"
       compiled
 
     when WhileNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map{ |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
-      end
+      body_code = generate(node.body)
 
       "while %s do \n %s \nend" % [
         generate(node.statement),
@@ -90,12 +91,8 @@ class Generator
       ]
 
     when ForNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map{ |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
-      end
+      body_code = generate(node.body)
+
       increment = ", #{node.step.nil? ? "" : generate(node.step)}"
       "for %s = %s, %s%s do\n %s \nend"  % [
         generate(node.var),
@@ -106,12 +103,7 @@ class Generator
       ]
 
     when ForPairNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map{ |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
-      end
+      body_code = generate(node.body)
       "for %s, %s in pairs(%s) do\n %s \nend" % [
         node.key,
         node.val,
@@ -120,12 +112,8 @@ class Generator
       ]
 
     when ForPairNode
-      body_code = 
-      if node.body.is_a?(Array)
-        node.body.map{ |n| generate (n) }.join("\n")
-      else
-        generate(node.body)
-      end
+      body_code = generate(node.body)
+
       "for %s, %s in ipairs(%s) do\n %s \nend" % [
         generate(node.index),
         generate(node.val),
@@ -142,7 +130,7 @@ class Generator
           compiled << "elseif #{generate(c.match)} == #{generate(node.value)} then\n"
         end
 
-        body_code = c.body.map { |b| generate(b) }.join("\n")
+        body_code = generate(c.body)
         compiled << " #{body_code}\n"
 
       end
@@ -153,12 +141,12 @@ class Generator
     when CallNode
       "%s(%s)" % [
         node.name,
-        node.arg_expr.map { |expr| generate(expr) }.join(",")
+         generate_arguments(node.arg_expr)
       ]
 
     when PrintNode
       "print(%s)" % [
-        node.args.map { |expr| generate(expr) }.join(",")
+        generate_arguments(node.args)
       ]
 
     when VarAssignNode
@@ -185,7 +173,7 @@ class Generator
       selfstring = "self#{node.type}#{node.name}"
     
       if !node.args.empty?
-        args_string = node.args.map {|expr| generate(expr) }.join(",")
+        args_string = generate_arguments(node.args)
         selfstring += "(#{args_string})"
       else
         selfstring += " = %s" % [
@@ -198,7 +186,7 @@ class Generator
       "love.%s.%s(%s)" % [
         node.namespace,
         node.name,
-        node.args.map { |expr| generate(expr) }.join(",")
+        generate_arguments(node.args)
       ]
 
     when ReturnNode
@@ -221,7 +209,7 @@ class Generator
       ]
     
     when ArrayNode
-      elements = node.elements.map { |e| generate(e) }.join(", ")
+      elements = generate_arguments(node.elements)
       "{#{elements}}"
 
     when ArrayAccessNode
