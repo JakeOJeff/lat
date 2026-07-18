@@ -148,15 +148,33 @@ confInput = File.read(confPath) if File.exist?(confPath)
 input = File.read(inputFile)
 confInput = File.read(confPath) if File.exist?(confPath)
 
-tokens = Tokenizer.new(input).tokenize
 confTokens = Tokenizer.new(confInput).tokenize if confInput
 # puts "--- TOKENS ---"
 # puts tokens.map(&:inspect).join("\n")
 
-tree = Parser.new(tokens).parse
 confTree = Parser.new(confTokens).parse if confTokens
 # puts "--- AST ---"
 # p tree
+
+
+begin
+  tokens = Tokenizer.new(input).tokenize
+  tree = Parser.new(tokens).parse
+rescue LatSyntaxError => e 
+    report_syntax_error(e, inputFile, input)
+    exit 1
+end
+
+confTree = nil
+if confInput
+    begin
+        confTokens = Tokenizer.new(confInput).tokenize
+        confTree = Parser.new(confTokens).parse
+    rescue LatSyntaxError => e 
+        report_syntax_error(e, confPath, confInput)
+        exit 1
+    end
+end
 
 
 
@@ -169,9 +187,9 @@ confGenerated = Generator.new.generate(confTree) if confTree
 def build_source_map(lua_source)
     map = {}
     clean_lines = lua_source.split("\n", -1).each_with_index.map do |line, idx|
-        if line =~ /\A--\[\[@(\d+)\]\](.*)\z/m
-            map[idx + 1] = $1.to_i 
-            $2
+        if line =~ /\A(\s*)--\[\[@(\d+)\]\](.*)\z/m
+            map[idx + 1] = $2.to_i
+            "#{$1}#{$3}"
         else
             line
         end
@@ -192,12 +210,24 @@ def build_lat_shim(basename, source_map)
       end))
     end
 
-    if not _G.__lat_default_errorhandler then
-      _G.__lat_default_errorhandler = love.errorhandler
-    end
+    local _LAT_ERROR_BG = {0.1, 0.1, 0.15}  
 
-    function love.errorhandler(msg)
-      return _G.__lat_default_errorhandler(_lat_remap(tostring(msg)))
+    if _lat_default_handler then
+      local function _lat_wrapped_handler(msg)
+        local loop = _lat_default_handler(_lat_remap(tostring(msg)))
+        if type(loop) == "function" then
+          local real_clear = love.graphics.clear
+          return function(...)
+            love.graphics.clear = function() real_clear(_LAT_ERROR_BG[1], _LAT_ERROR_BG[2], _LAT_ERROR_BG[3]) end
+            local result = loop(...)
+            love.graphics.clear = real_clear
+            return result
+          end
+        end
+        return loop
+      end
+      love.errorhandler = _lat_wrapped_handler
+      love.errhand = _lat_wrapped_handler
     end
 
   LUA
@@ -205,7 +235,11 @@ end
 
 
 generated, source_map = build_source_map(generated)
-generated = build_lat_shim(basename, source_map) + generated
+
+shim_line_count = build_lat_shim(basename, {}).each_line.count
+offset_map = source_map.each_with_object({}) { |(k, v), h| h[k + shim_line_count] = v }
+
+generated = build_lat_shim(basename, offset_map) + generated
 
 confGenerated, _conf_source_map = build_source_map(confGenerated) if confGenerated
 
