@@ -58,9 +58,48 @@ OP_NAMESPACES = {
 
 }
 
+FRIENDLY_TOKEN_NAMES = {
+  end: "'done'",
+  def: "'call'",
+  local: "'nat'",
+  while: "'when'",
+  forpairs: "'each'",
+  foripairs: "'seq'",
+  in: "'as'",
+  import: "'bring'",
+  if: "'if'",
+  elif: "'elif'",
+  else: "'else'",
+  switch: "'switch'",
+  to: "'to'",
+  class: "'class'",
+  self: "'self'",
+  identifier: "an identifier",
+  string: "a string",
+  integer: "a number",
+  float: "a number",
+  oparen: "'('",
+  cparen: "')'",
+  lbracket: "'['",
+  rbracket: "']'",
+  lbrace: "'{'",
+  rbrace: "'}'",
+  comma: "','",
+  dot: "'.'",
+  colon: "':'",
+  equal: "'='",
+  dequal: "'=='",
+  newline: "a newline",
+}.freeze
+
 class Parser
   def initialize(tokens)
     @tokens = tokens
+    @last_line = tokens.first&.line
+  end
+
+  def describe_token_type(type)
+    FRIENDLY_TOKEN_NAMES[type] || "'#{type}'"
   end
 
   def parse
@@ -471,7 +510,21 @@ class Parser
     elsif LOVE_NAMESPACES.keys.include?(peek_type)
       parse_love_call
     else
-      raise "Unexpected token #{@tokens[0].inspect} in term"
+      token = @tokens[0]
+      if token.nil?
+        raise LatSyntaxError.new(
+          "Expected an expression but reached the end of the file",
+          line: @last_line
+        )
+      end
+
+      raise LatSyntaxError.new(
+        "Expected an expression but got #{describe_token_type(token.type)} (\"#{token.value}\")",
+        line: token.line,
+        column: token.column
+      
+        )
+      # raise "Unexpected token #{@tokens[0].inspect} in term"
 
     end
   end
@@ -567,8 +620,28 @@ class Parser
 
   def consume(type)
     token = @tokens.shift
-    raise "Expected #{type}, got #{token.type}" unless token.type == type
+    # raise "Expected #{type}, got #{token.type}" unless token.type == type
+    # token
+
+    if token.nil?
+      raise LatSyntaxError.new(
+        "Expected #{describe_token_type(type)} but reached the end of the file",
+        line: @last_line
+      )
+    end
+
+    unless token.type == type
+      raise LatSyntaxError.new(
+        "Expected #{describe_token_type(type)} but got #{describe_token_type(token.type)} (\"#{token.value}\")",
+        line: token.line,
+        column: token.column
+
+      )
+    end
+
+    @last_line = token.line
     token
+
   end
 
   def peek(type, offset = 0)
