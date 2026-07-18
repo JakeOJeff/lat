@@ -22,6 +22,22 @@ end
 
 OS = detect_os
 
+def report_syntax_error(err, filename, source)
+    location = err.line ? "#{filename}:#{err.line}" : filename
+    puts "lat: syntax error in #{location}"
+
+    if err.line && source
+        src_line = source.split("\n", -1)[err.line - 1]
+        if src_line
+            puts "      #{src_line}"
+            puts "      #{" " * (err.column - 1)}^" if err.column
+        end
+    end
+
+    puts "  #{err.message}"
+end
+
+
 def love_installed?
     if OS == :windows
         common_paths = [
