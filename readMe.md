@@ -10,6 +10,8 @@ A **Language** which compiles to Lua, built for [LÖVE](https://love2d.org). Wri
 
 Syntax inspired by Lua, Ruby, Python and Java
 
+AI Help was used to develop the project but not automated coding via agents/tools.
+
 ## Requirements
 
 - [Ruby](https://www.ruby-lang.org) 
@@ -71,5 +73,6 @@ There is some example code in the examples/ folder which you can use.
 > Syntax guide coming soon. See [guide.md](guide.md) or the Wiki for now.
 
 ### Demo:
+
 https://github.com/user-attachments/assets/f6d9b55f-e87e-4b20-a7c2-ed81e19414e4
 
