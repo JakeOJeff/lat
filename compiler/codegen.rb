@@ -115,12 +115,12 @@ class Generator
         body_code
       ]
 
-    when ForPairNode
+    when ForIPairNode
       body_code = generate(node.body)
 
       "for %s, %s in ipairs(%s) do\n %s \nend" % [
-        generate(node.index),
-        generate(node.val),
+        node.index,
+        node.val,
         generate(node.t),
         body_code
       ]

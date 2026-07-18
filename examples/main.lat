@@ -4,25 +4,25 @@ color = {0.5,0.5,0.5}
 
 call love.load()
     thing_item = {
-        "wow", 2, "glim glim", place
+        "Manan", "is my", "number", 1, "Press 'E' to change Color"
     }
     print("hello")
-
-    thing_item.place = 4
     
 done
 
 call love.update(dt)
     if -K:isDown("e")
-        color = {1,1,1}
+        color = {0,1,0}
+    else
+        color = {0.5,0.5,0.5}
     done
 done
 
 
 call love.draw()
     -G:setColor(color)
-    each k, v as t 
-        print("hello")
+    -G:setNewFont(35)
+    seq i, v as thing_item
+        -G:print(v, 20, i * 45)
     done
-    -G:print(thing_item[1])
 done

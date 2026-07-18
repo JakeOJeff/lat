@@ -15,7 +15,7 @@ Syntax inspired by Lua, Ruby, Python and Java
 - [Ruby](https://www.ruby-lang.org) 
 - [LÖVE2D](https://love2d.org)
 
-## Run without Installation
+## Run without Installation [ For Reviewers ( Ruby and Love2d still required)]
 
 ### 1. Clone this repo
 
@@ -31,7 +31,7 @@ There is some example code in the examples/ folder which you can use.
 ### 3. Run the compiler against the lat file
 
 ```bash
-    ruby ./compiler/compiler.rb ./examples/main.lat
+    ruby .\compiler\compile.rb .\examples\main.lat
 ```
 
 ## Setup
