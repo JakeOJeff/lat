@@ -3,6 +3,7 @@
 require_relative "tokenizer"
 require_relative "parser"
 require_relative "codegen"
+require_relative "errors"
 
 if ARGV.empty?
     puts "Usage: lat <input.lat> [output.lua]"

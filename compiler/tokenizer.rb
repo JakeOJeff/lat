@@ -1,4 +1,4 @@
-Token = Struct.new(:type, :value, :line)
+Token = Struct.new(:type, :value, :line, :column)
 
 class Tokenizer
 
@@ -73,10 +73,12 @@ class Tokenizer
 
   ]
 
-  def initialize(code)
+  def initialize(code, filename = nil)
     @code = code
+    @filename = filename
     @line = 1
-    puts "Tokenizer initialized with: #{code.inspect}"
+    @column = 1
+    # puts "Tokenizer initialized with: #{code.inspect}"
   end
 
   def tokenize
@@ -96,17 +98,34 @@ class Tokenizer
         value = $1
         if type == :space
           @code = @code[value.length..-1]
+          @column += value.length
           return tokenize_token
         end
 
         token = Token.new(type, value, @line)
         @code = @code[value.length..-1]
-        @line += value.count("\n") if type == :newline
+
+        if type == :newline
+          @line += value.count("\n")
+          @column = 1
+        else
+          @column += value.length
+        end
+
         # return Token.new(type, value)
         return token
       end
     end
 
-    raise "Couldn't match token on #{@code.inspect}"
+    snippet = @code.lines.first.to_s.chomp
+    snippet = snippet[0, 30] + "..." if snippet.length > 30
+
+    raise LatSyntaxError.new(
+      "Unrecognized syntax near #{snippet.inspect}",
+      line: @line,
+      column: @column
+    )
+
+    # raise "Couldn't match token on #{@code.inspect}"
   end
 end
