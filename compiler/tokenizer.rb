@@ -74,7 +74,7 @@ class Tokenizer
   ]
 
   def initialize(code, filename = nil)
-    @code = code
+    @code = code.gsub(/\r\n?/, "\n")
     @filename = filename
     @line = 1
     @column = 1
